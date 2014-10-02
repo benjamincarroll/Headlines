@@ -1,0 +1,13 @@
+{
+  "name": "Headlines",
+  "version": "0.0.1",
+  "description": "Scrape le web.",
+  "main": "server.js",
+  "author": "Scotch",
+  "dependencies": {
+    "cheerio": "latest",
+    "express": "^4.9.5",
+    "mongoose": "^3.8.17",
+    "request": "latest"
+  }
+}
