@@ -36,6 +36,7 @@ app.get('/auth/twitter', function(req, res){
       res.send("yeah no. didn't work.")
     }
     else {
+      console.log("Something worked");
       req.session.oauth = {};
       req.session.oauth.token = oauth_token;
       console.log('oauth.token: ' + req.session.oauth.token);
