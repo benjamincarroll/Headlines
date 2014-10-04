@@ -21,6 +21,16 @@ var port = process.env.PORT || 8080;    // set our port
 // ================================
 var router = express.Router();   // get an instance of the express router
 
+// middleware to use for all requests
+router.use(function(req, res, next){
+  // this will get called for every api call
+  console.log('Something is happening.');
+
+  //TODO: This is where we can check the request for
+  //      authentication token. So cool!
+  next();
+})
+
 router.get('/', function(req, res) {
   res.json({ message: 'hooray! welcome to our api!' });
 });
