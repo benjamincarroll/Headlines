@@ -28,16 +28,13 @@ var router = express.Router();   // get an instance of the express router
 
 // most routes are found here
 require('./backend/routes')(router);
-
+var homeController = require('./backend/home');
 
 
 // REGISTER OUR ROUTES ---------------------
 // all of our routes will be prefixed with /api
+app.get('/', homeController.index);
 app.use('/api', router);
-
-// START THE SERVER
-app.listen(port);
-console.log('Magic happens on port ' + port);
 
 // Connect to the db
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
@@ -46,3 +43,8 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   }
 });
 
+// START THE SERVER
+app.listen(port);
+console.log('Magic happens on port ' + port);
+
+module.exports = app;
