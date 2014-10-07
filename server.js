@@ -27,13 +27,18 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedi
 var router = express.Router();   // get an instance of the express router
 
 // most routes are found here
-require('./backend/routes')(router);
+require('./backend/routes')(app,router);
 var homeController = require('./backend/home');
 
+// frontend routes
+// route to handle all angular requests
+app.get('*', function(req, res) {
+  console.log('request for html');
+  res.sendFile(__dirname + '/public/home.html'); // load our public/index.html file
+});
 
 // REGISTER OUR ROUTES ---------------------
 // all of our routes will be prefixed with /api
-app.get('/', homeController.index);
 app.use('/api', router);
 
 // Connect to the db
