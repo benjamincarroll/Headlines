@@ -34,7 +34,7 @@ var homeController = require('./backend/home');
 // route to handle all angular requests
 app.get('*', function(req, res) {
   console.log('request for html');
-  res.sendFile(__dirname + '/public/home.html'); // load our public/index.html file
+  res.sendFile(__dirname + '/public/index.html'); // load our public/index.html file
 });
 
 // REGISTER OUR ROUTES ---------------------
