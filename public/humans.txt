@@ -1,0 +1,16 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Scott Foggo -- Front-End Dev -- https://github.com/foggopogo
+    Ben Carroll -- Back-End Dev -- https://github.com/benjamincarroll
+
+# THANKS
+
+    Daniel Eden - animate.css
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3, Node.js, Angular.js
+    jQuery, Modernizr, Animate
