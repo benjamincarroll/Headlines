@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var PageSchema = new Schema({
-  articleId      : Number,
+  article        : boolean,
   userId         : Number,
   headline       : String,
   dateCreated    : Number,
