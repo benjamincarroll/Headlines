@@ -3,9 +3,7 @@ var mongoose = require('mongoose'),
 
 var PageSchema = new Schema({
   name           : String,
-  twitterInfo    : Boolean,
-  articleId      : Number,
-  headlineId     : Number,
+  twitterInfo    : String,
 });
 
 module.exports = mongoose.model('user', PageSchema);
