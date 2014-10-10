@@ -9,4 +9,4 @@ var PageSchema = new Schema({
   voteCount      : Number
 });
 
-module.exports = mongoose.model('user', PageSchema);
+module.exports = mongoose.model('headline', PageSchema);
