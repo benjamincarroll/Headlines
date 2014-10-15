@@ -12,17 +12,7 @@ module.exports = function(router) {
     next();
   })
 
-router.get('/yay', function(req, res) {
-  res.json({ message: 'hooray! We rock!' });
-//  res.sendfile('./public/home.html'); // load our public/index.html file
-
-});
-
-  // // frontend routes
-  // // route to handle all angular requests
-  // router.get('/', function(req, res) {
-  //   logger.info('request for html');
-  //   res.sendfile('./public/home.html'); // load our public/index.html file
-  // });
-
+  router.get('/yay', function(req, res) {
+    res.json({ message: 'hooray! We rock!' });
+  });
 }
