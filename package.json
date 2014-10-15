@@ -12,6 +12,7 @@
     "cheerio": "latest",
     "express": "^4.9.5",
     "mongoose": "3.8.17",
-    "request": "latest"
+    "request": "latest",
+    "winston": "latest"
   }
 }

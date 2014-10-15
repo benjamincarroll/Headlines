@@ -45,6 +45,8 @@ app.use('/api', router);
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   if(!err) {
     console.log("We are connected");
+  } else {
+    console.log("ERROR - We did not connect to server");
   }
 });
 
