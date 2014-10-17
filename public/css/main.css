@@ -34,6 +34,15 @@ body {
 	font-size: 2em;
 }
 
+#main-nav a {
+	font-size: 18px;
+	padding-top: 18px;
+}
+
+#footer {
+	text-align: center;
+}
+
 /* ==========================================================================
    						OVERALL
    ========================================================================== */
@@ -47,6 +56,10 @@ body {
 #search-field {
 	display: inline;
 	width: 90%;
+}
+
+#main-nav {
+	display: none;
 }
 
 #profile-thumbnail {
