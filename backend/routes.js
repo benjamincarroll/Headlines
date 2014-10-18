@@ -4,10 +4,10 @@ var error_handler = require('./error_handling.js');
 
 //This is where all of the routes will go
 
-module.exports = function(router) {
+module.exports = function(app) {
 
   // middleware to use for all requests
-  router.use(function(req, res, next){
+  app.use(function(req, res, next){
     // this will get called for every api call
     console.log('Something is happening.');
 
@@ -16,12 +16,12 @@ module.exports = function(router) {
     next();
   })
 
-  router.get('/yay', function(req, res) {
+  app.get('/yay', function(req, res) {
     res.json({ message: 'hooray! We rock!' });
   });
 
   // post an article
-  router.post('/article', function(req, res) {
+  app.post('/article', function(req, res) {
       console.log(req.body.userId);
 
       Article.findOne({
