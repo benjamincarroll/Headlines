@@ -16,7 +16,10 @@ var twitterConsumerSecret = "bB1UWpMM5wEIBakC4bBcRGXkEAjKDfNhwe48LjxNlvspmVaQi6"
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
 var port = process.env.PORT || 8080;    // set our port
+
+app.use(express.static(__dirname + '/public'));
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
@@ -29,7 +32,7 @@ var router = express.Router();   // get an instance of the express router
 
 // most routes are found here
 require('./backend/routes')(app,router);
-var homeController = require('./backend/home');
+// var homeController = require('./backend/home');
 
 // frontend routes
 // route to handle all angular requests
