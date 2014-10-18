@@ -1,13 +1,73 @@
 
 
 /* ==========================================================================
-   						HEADLINES
+   						OVERALL
    ========================================================================== */
+
+body {
+	padding-top: 50px;
+	padding-bottom: 20px;
+}
 
 .navbar-brand {
 	padding-left: 5px;
 	padding-top: 5px;
 }
+
+#search-btn {
+	margin-right: 3px;
+}
+
+#profile-thumbnail {
+	width: 3em;
+	height: 3em;
+	border-radius: 50%;
+	margin-top: 7px;
+}
+
+.mobile-links {
+	text-align: center
+}
+
+#mobile-links {
+	display: none;
+	font-size: 2em;
+}
+
+#main-nav a {
+	font-size: 18px;
+	padding-top: 18px;
+}
+
+#footer {
+	text-align: center;
+}
+
+/* ==========================================================================
+   						OVERALL
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+#mobile-links {
+	display:block;
+}
+
+#search-field {
+	display: inline;
+	width: 90%;
+}
+
+#main-nav {
+	display: none;
+}
+
+#profile-thumbnail {
+	display: none;
+}
+
+}
+
 
 
 
