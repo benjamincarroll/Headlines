@@ -22,6 +22,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
+
 // Routes for our API
 // ================================
 var router = express.Router();   // get an instance of the express router
@@ -45,6 +46,8 @@ app.use('/api', router);
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   if(!err) {
     console.log("We are connected");
+  } else {
+    console.log("ERROR - We did not connect to server");
   }
 });
 
