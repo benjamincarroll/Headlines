@@ -13,7 +13,7 @@
         <!-- css -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/headlines.css">
 
         <!-- js -->
         <!-- vendor -->
@@ -66,9 +66,9 @@
         <!-- Nav -->
         <nav id="main-nav">
           <ul class="nav nav-pills nav-justified">
-            <li><a href="#">Articles</a></li>
-            <li class="active"><a href="#">Headlines</a></li>
-            <li><a href="#">Profile</a></li>
+            <li ng-class="{'active': currentTab == 'Articles' }"><a href="#/Articles">Articles</a></li>
+            <li ng-class="{'active': currentTab == 'Headlines' }"><a href="#/Headlines">Headlines</a></li>
+            <li ng-class="{'active': currentTab == 'Profile' }"><a href="#/Profile">Profile</a></li>
           </ul>
         </nav>
       </div>
