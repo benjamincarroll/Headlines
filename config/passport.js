@@ -1,6 +1,21 @@
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+var secrets = require('./secrets');
 // Sign in with Twitter.
 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tokenSecret, profile, done) {
+
+  console.log("OH FUCK YES");
   if (req.user) {
     User.findOne({ twitter: profile.id }, function(err, existingUser) {
       if (existingUser) {
