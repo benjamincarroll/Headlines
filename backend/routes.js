@@ -98,14 +98,14 @@ module.exports = function(app) {
     });
 
     // get 10 latests articles after date
-    app.get('/articles/:date', function(req, res) {
+    app.get('/articles/:date/:userId', function(req, res) {
         var limit = 10;
-        var sort
 
         Article.find({
                 "dateCreated": {
                     "$gt": req.params.date
-                }
+                },
+                "userId" : req.params.userId
             })
             .limit(limit)
             .sort({
@@ -114,8 +114,142 @@ module.exports = function(app) {
             .exec(function(err, articles) {
                 if (err) return error_handler(err, req, res);
 
-                res.json(articles);
-                console.log("Oh fuck yeah fuckers");
+                // Check to see if there are any more articles to
+                // get
+                var dateCreated = articles[0]["dateCreated"] + 1;
+                var numberLeft = Article.find({
+                                          "dateCreated" : {
+                                            "$gt": dateCreated,
+                                          },
+                                          "userId" : req.params.userId
+                                        })
+                                        .limit(1)
+                                        .count()
+                                        .exec(function(err, number){
+                                            var jsonObject = {
+                                              articles : "",
+                                              more : ""
+                                            };
+                                            jsonObject.articles = articles;
+                                            if (number){
+                                              jsonObject.more = true;
+                                            } else {
+                                              jsonObject.more = false;
+                                            }
+                                            res.json(jsonObject);
+                                            console.log("Oh fuck yeah fuckers");
+                                        })
+
             })
     });
+
+    // get 10 latests headlines after date
+    app.get('/headlines/:date/:userId', function(req, res) {
+        var limit = 10;
+
+        Headline.find({
+                "dateCreated": {
+                    "$gt": req.params.date,
+                },
+                "userId": req.params.userId
+            })
+            .limit(limit)
+            .sort({
+                dateCreated: -1
+            })
+            .exec(function(err, headlines) {
+                if (err) return error_handler(err, req, res);
+
+                // Check to see if there are any more articles to
+                // get
+                var dateCreated = headlines[0]["dateCreated"] + 1;
+                Headline.find({
+                              "dateCreated" : {
+                                "$gt": dateCreated
+                              },
+                              "userId": req.params.userId
+                            })
+                            .limit(1)
+                            .count()
+                            .exec(function(err, number){
+                                var jsonObject = {
+                                  headlines : "",
+                                  more : ""
+                                };
+                                jsonObject.headlines = headlines;
+                                if (number){
+                                  jsonObject.more = true;
+                                } else {
+                                  jsonObject.more = false;
+                                }
+                                res.json(jsonObject);
+                                console.log("Oh fuck yeah fuckers");
+                            })
+            })
+    });
+
+  // get the 20 most popular articles
+  app.get('/headlines', function(req, res) {
+      var limit = 20;
+
+      Headline.find()
+          .limit(limit)
+          .sort({
+              voteCount: -1
+          })
+          .exec(function(err, headlines) {
+              if (err) return error_handler(err, req, res);
+
+              // Check to see if there are any more articles to
+              // get
+              var voteCount = headlines[0]["voteCount"];
+              var index = 1;
+              var counter = 1;
+              while(headlines[index]["voteCount"] == voteCount) {
+                counter += 1;
+                index += 1;
+              }
+
+              Headline.find({
+                            "voteCount": voteCount
+                          })
+                          .count()
+                          .exec(function(err, number){
+                            var moreBoolean = false;
+                            if (number > counter){
+                              moreBoolean = true;
+                            } else {
+                              Headline.find({"voteCount": {
+                                // this might cause a bug. Is is greater than?
+                                // or greater than or equal to?
+                                "$gt": voteCount
+                              }})
+                              .limit(limit)
+                              .sort({
+                                voteCount: -1
+                              })
+                              .count()
+                              .exec(function(err, number){
+                                if (err) return error_handler(err, req, res);
+
+                                if (number){
+                                  moreBoolean = true;
+                                }
+                                var jsonObject = {
+                                  headlines : "",
+                                  more : ""
+                                };
+                                jsonObject.headlines = headlines;
+                                if (number){
+                                  jsonObject.more = moreBoolean;
+                                } else {
+                                  jsonObject.more = moreBoolean;
+                                }
+                                res.json(jsonObject);
+                                console.log("Oh fuck yeah fuckers");
+                                  })
+                                }
+                          })
+          })
+  });
 }
