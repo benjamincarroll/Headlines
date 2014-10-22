@@ -1,6 +1,8 @@
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var secrets = require('./secrets');
+var User = require('../backend/models/user.js');
+
 // Sign in with Twitter.
 
 passport.serializeUser(function(user, done) {
