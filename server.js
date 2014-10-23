@@ -10,7 +10,6 @@ var flash = require('express-flash');
 var mongoose = require('mongoose');
 var sys = require('sys');
 var passport = require('passport');
-var oauth = require('oauth');
 
 
 
@@ -62,14 +61,6 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // });
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
   res.redirect('/');
-});
-
-
-// frontend routes
-// route to handle all angular requests
-app.get('*', function(req, res) {
-  console.log('request for html');
-  res.sendFile(__dirname + '/public/index.html'); // load our public/index.html file
 });
 
 // REGISTER OUR ROUTES ---------------------
