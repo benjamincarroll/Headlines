@@ -12,6 +12,12 @@ module.exports = function(app) {
         // this will get called for every api call
         console.log('Something is happening.');
 
+        if (req.isAuthenticated()){
+          console.log("They are authenticated!");
+        } else {
+          console.log("They are NOT authenticated!");
+        }
+
         //TODO: This is where we can check the request for
         //      authentication token. So cool!
         next();
