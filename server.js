@@ -56,9 +56,13 @@ var router = express.Router();   // get an instance of the express router
 // var homeController = require('./backend/home');
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
-// app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
-//   res.redirect(req.session.returnTo || '/');
-// });
+
+// route for logging out
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
   res.redirect('/');
 });
