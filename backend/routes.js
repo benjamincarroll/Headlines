@@ -200,6 +200,8 @@ module.exports = function(app) {
             })
     });
 
+  app.get('/userInfo/')
+
   // get the 20 most popular articles
   app.get('/headlines', function(req, res) {
       var limit = 20;
