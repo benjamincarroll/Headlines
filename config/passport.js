@@ -16,8 +16,6 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tokenSecret, profile, done) {
-
-  console.log("OH FUCK YES");
   if (req.user) {
     User.findOne({ twitter: profile.id }, function(err, existingUser) {
       if (existingUser) {
