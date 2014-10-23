@@ -57,5 +57,5 @@ passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tok
         });
       });
     }
-  }
+  });
 }));
