@@ -12,9 +12,21 @@ module.exports = function(app) {
         // this will get called for every api call
         console.log('Something is happening.');
 
-        //TODO: This is where we can check the request for
-        //      authentication token. So cool!
-        next();
+        if (req.method = 'POST'){
+          if (req.isAuthenticated()){
+            // if the request is a POST and they are authenticated,
+            // let them through
+            next();
+          } else {
+            res.json({
+              status: 'failed request',
+              message: 'User is not signed in'
+            })
+          }
+        } else {
+          // If the request is a httpGet. Let anyone through.
+          next();
+        }
     })
 
     app.get('/yay', function(req, res) {
@@ -187,6 +199,8 @@ module.exports = function(app) {
                             })
             })
     });
+
+  app.get('/userInfo/')
 
   // get the 20 most popular articles
   app.get('/headlines', function(req, res) {

@@ -10,7 +10,6 @@ var flash = require('express-flash');
 var mongoose = require('mongoose');
 var sys = require('sys');
 var passport = require('passport');
-var oauth = require('oauth');
 
 
 
@@ -57,19 +56,15 @@ var router = express.Router();   // get an instance of the express router
 // var homeController = require('./backend/home');
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
-// app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
-//   res.redirect(req.session.returnTo || '/');
-// });
-app.get('/auth/twitter/callback', function(req, res){
-  console.log("Well something is working!!!!!!");
+
+// route for logging out
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
 });
 
-
-// frontend routes
-// route to handle all angular requests
-app.get('*', function(req, res) {
-  console.log('request for html');
-  res.sendFile(__dirname + '/public/index.html'); // load our public/index.html file
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
+  res.redirect('/');
 });
 
 // REGISTER OUR ROUTES ---------------------
