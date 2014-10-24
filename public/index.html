@@ -44,19 +44,11 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="navbar-nav nav mobile-links">
-            <li class="active" id="mobile-links"><a href="#">Headlines</a></li>
-            <li id="mobile-links">Articles</li>
-            <li id="mobile-links">Profile</li>
+            <li ng-class="{'active': currentTab == 'Articles' }" id="mobile-links"><a href="#/Articles">Articles</a></li>
+            <li ng-class="{'active': currentTab == 'Headlines' }" id="mobile-links"><a href="#/Headlines">Headlines</a></li>
+            <li ng-class="{'active': currentTab == 'Profile' }" id="mobile-links"><a href="#/Profile">Profile</a></li>
           </ul>
           <img id="profile-thumbnail" class="navbar-right" src="img/defaultprofile.png">
-          <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-              <input id="search-field" type="text" placeholder="Search" class="form-control">
-              <button id="search-btn" type="submit" class="btn btn-success">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </div>
-          </form>
         </div><!--/.navbar-collapse -->
       </div>
     </div>
@@ -73,7 +65,14 @@
         </nav>
       </div>
 
-      <div ng-view></div>
+      <div ng-view>
+        <div class="form-group">
+          <input id="search-field" type="text" placeholder="Search" class="form-control">
+          <button id="search-btn" type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
 
       
       <hr>
@@ -83,6 +82,7 @@
     </div> <!-- /container -->        
         <!-- vendor -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
 
         <script src="js/vendor/bootstrap.min.js"></script>

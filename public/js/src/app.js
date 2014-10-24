@@ -38,7 +38,7 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
     	$scope.headline = '';
 
     	$scope.PostHeadline = function () {
-    		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : 1000, 'voteCount' : 100})
+    		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : moment().unix(), 'voteCount' : 0})
     			.success(function () {
     				console.log('Headline created!')
     			});

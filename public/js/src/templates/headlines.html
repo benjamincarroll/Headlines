@@ -1,5 +1,15 @@
 <div ng-show="dataReady">
-	
+	<div id="headlines">
+		<ul>
+			<li class="card" ng-repeat="card in headlines">
+				<div class="item">
+					<h4>{{card.headline}}</h4>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>
 
 <div ng-show="!dataReady" style="padding:7px; text-align:center;">
