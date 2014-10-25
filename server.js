@@ -1,51 +1,17 @@
 var express = require('express');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var app = express();
 var bodyParser = require('body-parser');
-var request = require('request');
 var cheerio = require('cheerio');
+var MongoStore = require('connect-mongo')({ session: session });
+var flash = require('express-flash');
 var mongoose = require('mongoose');
-var sys = require('sys');
 var passport = require('passport');
-var oauth = require('oauth');
+var secrets = require('./config/secrets');
+var passportConf = require('./config/passport');
 
-var twitterConsumerKey = "TeMMcBZiE61uQRY6zF2lDDX2m";
-var twitterConsumerSecret = "bB1UWpMM5wEIBakC4bBcRGXkEAjKDfNhwe48LjxNlvspmVaQi6";
-
-// configuration =================
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-
-var port = process.env.PORT || 8080;    // set our port
-
-app.use(express.static(__dirname + '/public'));
-
-app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect(req.session.returnTo || '/');
-});
-
-// Routes for our API
-// ================================
-var router = express.Router();   // get an instance of the express router
-
-// most routes are found here
-require('./backend/routes')(app,router);
-// var homeController = require('./backend/home');
-
-// frontend routes
-// route to handle all angular requests
-app.get('*', function(req, res) {
-  console.log('request for html');
-  res.sendFile(__dirname + '/public/index.html'); // load our public/index.html file
-});
-
-// REGISTER OUR ROUTES ---------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
-
-// Connect to the db
+// Connect to the
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   if(!err) {
     console.log("We are connected");
@@ -54,7 +20,45 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   }
 });
 
+// configuration =================
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: secrets.sessionSecret,
+  store: new MongoStore({
+    url: secrets.db,
+    auto_reconnect: true
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+// renders static pages
+app.use(express.static(__dirname + '/public'));
+
+// Twitter oAuth
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
+  res.redirect('/');
+});
+
+// route for logging out
+app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+// backend routes
+var router = express.Router();   // instance of the express router
+require('./backend/routes')(app,router);
+
+
 // START THE SERVER
+var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Magic happens on port ' + port);
 

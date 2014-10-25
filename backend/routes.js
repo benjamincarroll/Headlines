@@ -2,21 +2,30 @@ var Article = require('./models/article.js');
 var Headline = require('./models/headlines.js')
 var error_handler = require('./error_handling.js');
 
-
-//This is where all of the routes will go
-
+// Headline routes
 module.exports = function(app) {
 
-    // middleware to use for all requests
+    // middleware to use for all requests, this will be used for
+    // all get/post requests
     app.use(function(req, res, next) {
-        // this will get called for every api call
-        console.log('Something is happening.');
-
-        //TODO: This is where we can check the request for
-        //      authentication token. So cool!
-        next();
+        if (req.method == 'POST'){
+          if (req.isAuthenticated()){
+            // if the request is a POST and they are authenticated,
+            // let them through
+            next();
+          } else {
+            res.json({
+              status: 'failed request',
+              message: 'User is not signed in'
+            })
+          }
+        } else {
+          // If the request is a httpGet. Let anyone through.
+          next();
+        }
     })
 
+    // Test get request
     app.get('/yay', function(req, res) {
         res.json({
             message: 'hooray! We rock!'
