@@ -197,6 +197,7 @@ module.exports = function(app) {
     });
 
   // get the 20 most popular articles, after specified number
+  // Ex. to get top headlines 20-40 "/headlines/20"
   app.get('/headlines/:number', function(req, res) {
       var limit = 20;
       var number = req.params.number
