@@ -10,9 +10,8 @@ module.exports = function(app) {
     // middleware to use for all requests
     app.use(function(req, res, next) {
         // this will get called for every api call
-        console.log('Something is happening.');
 
-        if (req.method = 'POST'){
+        if (req.method == 'POST'){
           if (req.isAuthenticated()){
             // if the request is a POST and they are authenticated,
             // let them through
@@ -29,6 +28,7 @@ module.exports = function(app) {
         }
     })
 
+    // Test get request
     app.get('/yay', function(req, res) {
         res.json({
             message: 'hooray! We rock!'
