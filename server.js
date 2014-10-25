@@ -3,21 +3,15 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
 var bodyParser = require('body-parser');
-var request = require('request');
 var cheerio = require('cheerio');
 var MongoStore = require('connect-mongo')({ session: session });
 var flash = require('express-flash');
 var mongoose = require('mongoose');
-var sys = require('sys');
 var passport = require('passport');
-
-
-
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 
 // Connect to the
-//mongoose.connect(secrets.db);
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   if(!err) {
     console.log("We are connected");
@@ -27,8 +21,6 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
 });
 
 // configuration =================
-
-// app.set('port', process.env.PORT || 8080);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -45,17 +37,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-var port = process.env.PORT || 8080;    // set our port
-
+// renders static pages
 app.use(express.static(__dirname + '/public'));
 
-// Routes for our API
-// ================================
-var router = express.Router();   // get an instance of the express router
-
-// var homeController = require('./backend/home');
-
+// Twitter oAuth
 app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
+  res.redirect('/');
+});
 
 // route for logging out
 app.get('/logout', function(req, res) {
@@ -63,19 +52,13 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
-  res.redirect('/');
-});
-
-// REGISTER OUR ROUTES ---------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
-
-// most routes are found here
+// backend routes
+var router = express.Router();   // instance of the express router
 require('./backend/routes')(app,router);
 
 
 // START THE SERVER
+var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
