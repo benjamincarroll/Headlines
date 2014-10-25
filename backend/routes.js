@@ -196,7 +196,7 @@ module.exports = function(app) {
             })
     });
 
-  // get the 20 most popular articles, after specified number
+  // get the 20 most popular headlines, after specified number
   // Ex. to get top headlines 20-40 "/headlines/20"
   app.get('/headlines/:number', function(req, res) {
       var limit = 20;
@@ -211,6 +211,24 @@ module.exports = function(app) {
               if (err) return error_handler(err, req, res);
               res.json(headlines);
               console.log("20 headlines have been sent, starting with: " + req.params.number);
+          });
+  });
+
+  // get the 20 most popular articles, after specified number
+  // Ex. to get top headlines 20-40 "/headlines/20"
+  app.get('/articles/:number', function(req, res) {
+      var limit = 20;
+      var number = req.params.number
+
+      Article.find()
+          .skip(number)
+          .limit(limit)
+          .sort({
+              voteCount: -1
+          }).exec(function(err, headlines) {
+              if (err) return error_handler(err, req, res);
+              res.json(headlines);
+              console.log("20 articles have been sent, starting with: " + req.params.number);
           });
   });
 }
