@@ -2,15 +2,12 @@ var Article = require('./models/article.js');
 var Headline = require('./models/headlines.js')
 var error_handler = require('./error_handling.js');
 
-
-//This is where all of the routes will go
-
+// Headline routes
 module.exports = function(app) {
 
-    // middleware to use for all requests
+    // middleware to use for all requests, this will be used for
+    // all get/post requests
     app.use(function(req, res, next) {
-        // this will get called for every api call
-
         if (req.method == 'POST'){
           if (req.isAuthenticated()){
             // if the request is a POST and they are authenticated,
@@ -199,8 +196,6 @@ module.exports = function(app) {
                             })
             })
     });
-
-  app.get('/userInfo/')
 
   // get the 20 most popular articles
   app.get('/headlines', function(req, res) {
