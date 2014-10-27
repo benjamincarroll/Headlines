@@ -43,31 +43,6 @@ body {
 	text-align: center;
 }
 
-/* ==========================================================================
-   						OVERALL
-   ========================================================================== */
-
-@media (max-width: 767px) {
-
-#mobile-links {
-	display:block;
-}
-
-#search-field {
-	display: inline;
-	width: 90%;
-}
-
-#main-nav {
-	display: none;
-}
-
-#profile-thumbnail {
-	display: none;
-}
-
-}
-
 .card {
     overflow: hidden;
     margin: 20px 10px;
@@ -139,7 +114,49 @@ body {
     padding: 7px;
 }
 
+/* ==========================================================================
+   						MEDIA QEURIES
+   ========================================================================== */
 
+@media (max-width: 767px) {
+
+#mobile-links {
+	display:block;
+}
+
+#search-field {
+	display: inline;
+	width: 90%;
+}
+
+#main-nav {
+	display: none;
+}
+
+#profile-thumbnail {
+	display: none;
+}
+
+}
+
+
+/* ==========================================================================
+                        HEADLINES
+   ========================================================================== */
+
+.headline {
+    display: inline-block;
+    width: 75%;
+}
+
+.vote {
+    display: inline-block;
+}
+
+.count {
+    color: #ccc;
+
+}
 
 
 

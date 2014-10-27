@@ -1,11 +1,12 @@
 <div ng-show="dataReady">
 	<div id="lines">
 		<ul>
-			<li class="card" ng-repeat="headline in lines">
+			<li class="wow flipInX animated card" ng-repeat="headline in lines">
 				<div class="item">
-					<h4>{{line.headline}}</h4>
-					<img src="">
-					<img src="">
+					<h4 class="headline">{{headline.headline}}</h4>
+					<img class="vote" src="../../../img/upvote.png">
+					<img class="vote" src="../../../img/downvote.png">
+					<span class="count">{{headline.voteCount}}</span>
 				</div>
 			</li>
 		</ul>

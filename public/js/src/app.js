@@ -24,7 +24,7 @@ angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$l
     	$scope.$parent.currentTab = 'Headlines';
     	$scope.dataReady = false;
 
-        $http.get('/headlines')
+        $http.get('/headlines/0')
             .success(function (data) {
                 $scope.lines = data;
                 console.log(data);
