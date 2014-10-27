@@ -22,7 +22,14 @@ app.config(['$routeProvider', function ($routeProvider) {
 angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
     	$scope.$parent.currentTab = 'Headlines';
-    	$scope.dataReady = true;
+    	$scope.dataReady = false;
+
+        $http.get('/headlines')
+            .success(function (data) {
+                $scope.lines = data;
+                console.log(data);
+                $scope.dataReady = true;
+            });
 
 
 }]);
