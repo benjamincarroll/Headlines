@@ -1,1 +1,17 @@
-<div style="padding:7px;">Headlines</div>
+<div ng-show="dataReady">
+	<div id="lines">
+		<ul>
+			<li class="card" ng-repeat="headline in lines">
+				<div class="item">
+					<h4>{{line.headline}}</h4>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div ng-show="!dataReady" style="padding:7px; text-align:center;">
+	<img src="../../../img/loading.gif">
+</div>

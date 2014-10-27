@@ -21,17 +21,35 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
-    	console.log('HeadlinesCtrl ready to go.');
+    	$scope.$parent.currentTab = 'Headlines';
+    	$scope.dataReady = false;
+
+        $http.get('/headlines')
+            .success(function (data) {
+                $scope.lines = data;
+                console.log(data);
+                $scope.dataReady = true;
+            });
+
+
 }]);
 
 angular.module('Headlines').controller("ArticlesCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
-    	console.log('ArticlesCtrl ready to go.');
+    	$scope.$parent.currentTab = 'Articles';
 }]);
 
 angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
-    	console.log('ProfileCtrl ready to go.');
+    	$scope.$parent.currentTab = 'Profile';
+    	$scope.headline = '';
+
+    	$scope.PostHeadline = function () {
+    		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : moment().unix(), 'voteCount' : 0})
+    			.success(function () {
+    				console.log('Headline created!')
+    			});
+    	}
 
     	$scope.TwitterAuth = function () {
     		console.log("Calling Twitter Auth");
