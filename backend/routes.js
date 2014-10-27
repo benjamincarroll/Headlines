@@ -165,21 +165,23 @@ module.exports = function(app) {
           });
   });
 
-  // get the 20 most popular articles, after specified number
-  // Ex. to get top headlines 20-40 "/headlines/20"
-  app.get('/articles/:number', function(req, res) {
+  // get the article with specified headlineId
+  app.get('/article/:headlineId', function(req, res) {
       var limit = 20;
-      var number = req.params.number
+      var headlineId = req.params.headlineId
 
-      Article.find()
-          .skip(number)
-          .limit(limit)
-          .sort({
-              voteCount: -1
-          }).exec(function(err, headlines) {
+      Article.find({
+                "headlineId": headlineId
+            })
+            .exec(function(err, article) {
               if (err) return error_handler(err, req, res);
-              res.json(headlines);
-              console.log("20 articles have been sent, starting with: " + req.params.number);
+              console.log("article length: " + article.length);
+              if (article.length > 1){
+                  // need to send 500 (server error)
+                  // more than one headlineId
+              } else {
+                res.json(article);
+              }
           });
   });
 }
