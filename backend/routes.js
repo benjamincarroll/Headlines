@@ -106,94 +106,45 @@ module.exports = function(app) {
     });
 
     // get 10 latests articles after date
-    app.get('/articles/:date/:userId', function(req, res) {
-        var limit = 10;
+    app.get('/articles/:userId/:number', function(req, res) {
+        var limit = 20;
+        var number = req.params.number
 
         Article.find({
-                "dateCreated": {
-                    "$gt": req.params.date
-                },
-                "userId" : req.params.userId
+                "userId": req.params.userId
             })
             .limit(limit)
+            .skip(number)
             .sort({
                 dateCreated: -1
             })
             .exec(function(err, articles) {
-                if (err) return error_handler(err, req, res);
-
-                // Check to see if there are any more articles to
-                // get
-                var dateCreated = articles[0]["dateCreated"] + 1;
-                var numberLeft = Article.find({
-                                          "dateCreated" : {
-                                            "$gt": dateCreated,
-                                          },
-                                          "userId" : req.params.userId
-                                        })
-                                        .limit(1)
-                                        .count()
-                                        .exec(function(err, number){
-                                            var jsonObject = {
-                                              articles : "",
-                                              more : ""
-                                            };
-                                            jsonObject.articles = articles;
-                                            if (number){
-                                              jsonObject.more = true;
-                                            } else {
-                                              jsonObject.more = false;
-                                            }
-                                            res.json(jsonObject);
-                                            console.log("Oh fuck yeah fuckers");
-                                        })
-
-            })
+                 if (err) return error_handler(err, req, res);
+            res.json(articles);
+            console.log("20 articles have been sent, starting with: " + req.params.number);
+            });
     });
 
-    // get 10 latests headlines after date
-    app.get('/headlines/:date/:userId', function(req, res) {
-        var limit = 10;
+    // get 20 latests headlines after date
+    // get latest headlines 20-40 with userId 69
+    // /headlines/69/20
+    app.get('/headlines/:userId/:number', function(req, res) {
+        var limit = 20;
+        var number = req.params.number
 
         Headline.find({
-                "dateCreated": {
-                    "$gt": req.params.date,
-                },
                 "userId": req.params.userId
             })
             .limit(limit)
+            .skip(number)
             .sort({
                 dateCreated: -1
             })
             .exec(function(err, headlines) {
-                if (err) return error_handler(err, req, res);
-
-                // Check to see if there are any more articles to
-                // get
-                var dateCreated = headlines[0]["dateCreated"] + 1;
-                Headline.find({
-                              "dateCreated" : {
-                                "$gt": dateCreated
-                              },
-                              "userId": req.params.userId
-                            })
-                            .limit(1)
-                            .count()
-                            .exec(function(err, number){
-                                var jsonObject = {
-                                  headlines : "",
-                                  more : ""
-                                };
-                                jsonObject.headlines = headlines;
-                                if (number){
-                                  jsonObject.more = true;
-                                } else {
-                                  jsonObject.more = false;
-                                }
-                                res.json(jsonObject);
-                                console.log("Oh fuck yeah fuckers");
-                            })
-            })
+                 if (err) return error_handler(err, req, res);
+            res.json(headlines);
+            console.log("20 headlines have been sent, starting with: " + req.params.number);
+            });
     });
 
   // get the 20 most popular headlines, after specified number
