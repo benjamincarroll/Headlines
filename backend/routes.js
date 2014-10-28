@@ -7,23 +7,23 @@ module.exports = function(app) {
 
     // middleware to use for all requests, this will be used for
     // all get/post requests
-    app.use(function(req, res, next) {
-        if (req.method == 'POST'){
-          if (req.isAuthenticated()){
-            // if the request is a POST and they are authenticated,
-            // let them through
-            next();
-          } else {
-            res.json({
-              status: 'failed request',
-              message: 'User is not signed in'
-            })
-          }
-        } else {
-          // If the request is a httpGet. Let anyone through.
-          next();
-        }
-    })
+    // app.use(function(req, res, next) {
+    //     if (req.method == 'POST'){
+    //       if (req.isAuthenticated()){
+    //         // if the request is a POST and they are authenticated,
+    //         // let them through
+    //         next();
+    //       } else {
+    //         res.json({
+    //           status: 'failed request',
+    //           message: 'User is not signed in'
+    //         })
+    //       }
+    //     } else {
+    //       // If the request is a httpGet. Let anyone through.
+    //       next();
+    //     }
+    // })
 
     // Test get request
     app.get('/yay', function(req, res) {
@@ -47,12 +47,13 @@ module.exports = function(app) {
                     headlineId: req.body.headlineId,
                     article: req.body.article,
                     dateCreated: req.body.dateCreated
-                }, function(err, fuckIdonno) {
+                }, function(err, article) {
                     if (err) {
                         res.send(err);
                     } else {
                         res.send({
-                            status: "Success"
+                            status: "Success",
+                            serverId: article._id
                         })
                     }
                 });
@@ -67,15 +68,9 @@ module.exports = function(app) {
 
     // post an headline
     app.post('/headline', function(req, res) {
-
-        Headline.findOne({
-            headline: req.body.headline
-        }, function(error, headline) {
-            if (error) return error_handler(err, req, res);
-
             if (typeof req.body.article == 'boolean') {
-                // we should be doing faulty data checks everywhere
-                console.log("Good data");
+              // we should be doing faulty data checks everywhere
+              console.log("Good data");
             } else {
               console.log("Bad data");
             }
@@ -86,23 +81,17 @@ module.exports = function(app) {
                     headline: req.body.headline,
                     dateCreated: req.body.dateCreated,
                     voteCount: req.body.voteCount
-                }, function(err, fuckIdonno) {
+                }, function(err, headline) {
                     if (err) {
                         res.send(err);
                     } else {
                         res.send({
-                            status: "Success"
-                        })
+                            status: "Success",
+                            serverId: headline._id
+                        });
                     }
                 });
-            } else {
-                res.send({
-                    status: "Failed",
-                    message: 'headlineId already existed'
-                });
             }
-
-        })
     });
 
     // get 10 latests articles after date
