@@ -43,6 +43,10 @@ body {
 	text-align: center;
 }
 
+.card-list {
+    padding: 0;
+}
+
 .card {
     overflow: hidden;
     margin: 20px 10px;
@@ -146,7 +150,7 @@ body {
 
 .headline {
     display: inline-block;
-    width: 75%;
+    width: 85%;
 }
 
 .vote {
