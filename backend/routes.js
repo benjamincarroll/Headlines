@@ -53,7 +53,7 @@ module.exports = function(app) {
                     } else {
                         res.send({
                             status: "Success",
-                            serverId: article._id
+                            articleId: article._id
                         })
                     }
                 });
@@ -87,7 +87,7 @@ module.exports = function(app) {
                     } else {
                         res.send({
                             status: "Success",
-                            serverId: headline._id
+                            headlineId: headline._id
                         });
                     }
                 });
