@@ -47,12 +47,13 @@ module.exports = function(app) {
                     headlineId: req.body.headlineId,
                     article: req.body.article,
                     dateCreated: req.body.dateCreated
-                }, function(err, fuckIdonno) {
+                }, function(err, article) {
                     if (err) {
                         res.send(err);
                     } else {
                         res.send({
-                            status: "Success"
+                            status: "Success",
+                            articleId: article._id
                         })
                     }
                 });
@@ -67,15 +68,9 @@ module.exports = function(app) {
 
     // post an headline
     app.post('/headline', function(req, res) {
-
-        Headline.findOne({
-            headline: req.body.headline
-        }, function(error, headline) {
-            if (error) return error_handler(err, req, res);
-
             if (typeof req.body.article == 'boolean') {
-                // we should be doing faulty data checks everywhere
-                console.log("Good data");
+              // we should be doing faulty data checks everywhere
+              console.log("Good data");
             } else {
               console.log("Bad data");
             }
@@ -86,114 +81,59 @@ module.exports = function(app) {
                     headline: req.body.headline,
                     dateCreated: req.body.dateCreated,
                     voteCount: req.body.voteCount
-                }, function(err, fuckIdonno) {
+                }, function(err, headline) {
                     if (err) {
                         res.send(err);
                     } else {
                         res.send({
-                            status: "Success"
-                        })
+                            status: "Success",
+                            headlineId: headline._id
+                        });
                     }
                 });
-            } else {
-                res.send({
-                    status: "Failed",
-                    message: 'headlineId already existed'
-                });
             }
-
-        })
     });
 
     // get 10 latests articles after date
-    app.get('/articles/:date/:userId', function(req, res) {
-        var limit = 10;
+    app.get('/articles/:userId/:number', function(req, res) {
+        var limit = 20;
+        var number = req.params.number
 
         Article.find({
-                "dateCreated": {
-                    "$gt": req.params.date
-                },
-                "userId" : req.params.userId
+                "userId": req.params.userId
             })
             .limit(limit)
+            .skip(number)
             .sort({
                 dateCreated: -1
             })
             .exec(function(err, articles) {
-                if (err) return error_handler(err, req, res);
-
-                // Check to see if there are any more articles to
-                // get
-                var dateCreated = articles[0]["dateCreated"] + 1;
-                var numberLeft = Article.find({
-                                          "dateCreated" : {
-                                            "$gt": dateCreated,
-                                          },
-                                          "userId" : req.params.userId
-                                        })
-                                        .limit(1)
-                                        .count()
-                                        .exec(function(err, number){
-                                            var jsonObject = {
-                                              articles : "",
-                                              more : ""
-                                            };
-                                            jsonObject.articles = articles;
-                                            if (number){
-                                              jsonObject.more = true;
-                                            } else {
-                                              jsonObject.more = false;
-                                            }
-                                            res.json(jsonObject);
-                                            console.log("Oh fuck yeah fuckers");
-                                        })
-
-            })
+                 if (err) return error_handler(err, req, res);
+            res.json(articles);
+            console.log("20 articles have been sent, starting with: " + req.params.number);
+            });
     });
 
-    // get 10 latests headlines after date
-    app.get('/headlines/:date/:userId', function(req, res) {
-        var limit = 10;
+    // get 20 latests headlines after date
+    // get latest headlines 20-40 with userId 69
+    // /headlines/69/20
+    app.get('/headlines/:userId/:number', function(req, res) {
+        var limit = 20;
+        var number = req.params.number
 
         Headline.find({
-                "dateCreated": {
-                    "$gt": req.params.date,
-                },
                 "userId": req.params.userId
             })
             .limit(limit)
+            .skip(number)
             .sort({
                 dateCreated: -1
             })
             .exec(function(err, headlines) {
-                if (err) return error_handler(err, req, res);
-
-                // Check to see if there are any more articles to
-                // get
-                var dateCreated = headlines[0]["dateCreated"] + 1;
-                Headline.find({
-                              "dateCreated" : {
-                                "$gt": dateCreated
-                              },
-                              "userId": req.params.userId
-                            })
-                            .limit(1)
-                            .count()
-                            .exec(function(err, number){
-                                var jsonObject = {
-                                  headlines : "",
-                                  more : ""
-                                };
-                                jsonObject.headlines = headlines;
-                                if (number){
-                                  jsonObject.more = true;
-                                } else {
-                                  jsonObject.more = false;
-                                }
-                                res.json(jsonObject);
-                                console.log("Oh fuck yeah fuckers");
-                            })
-            })
+                 if (err) return error_handler(err, req, res);
+            res.json(headlines);
+            console.log("20 headlines have been sent, starting with: " + req.params.number);
+            });
     });
 
   // get the 20 most popular headlines, after specified number
@@ -214,21 +154,23 @@ module.exports = function(app) {
           });
   });
 
-  // get the 20 most popular articles, after specified number
-  // Ex. to get top headlines 20-40 "/headlines/20"
-  app.get('/articles/:number', function(req, res) {
+  // get the article with specified headlineId
+  app.get('/article/:headlineId', function(req, res) {
       var limit = 20;
-      var number = req.params.number
+      var headlineId = req.params.headlineId
 
-      Article.find()
-          .skip(number)
-          .limit(limit)
-          .sort({
-              voteCount: -1
-          }).exec(function(err, headlines) {
+      Article.find({
+                "headlineId": headlineId
+            })
+            .exec(function(err, article) {
               if (err) return error_handler(err, req, res);
-              res.json(headlines);
-              console.log("20 articles have been sent, starting with: " + req.params.number);
+              console.log("article length: " + article.length);
+              if (article.length > 1){
+                  // need to send 500 (server error)
+                  // more than one headlineId
+              } else {
+                res.json(article);
+              }
           });
   });
 }
