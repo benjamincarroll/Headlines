@@ -119,6 +119,36 @@ body {
 }
 
 /* ==========================================================================
+                        SIGN IN MODAL
+   ========================================================================== */
+.btn-twitter {
+  color: #ffffff;
+  background-color: #55ACEE;
+  border-color: #55ACEE;
+}
+.btn-twitter:hover,
+.btn-twitter:focus,
+.btn-twitter:active {
+  color: #ffffff;
+  background-color: #2E99EA;
+  border-color: #2E99EA;
+}
+
+.btn-facebook {
+  color: #ffffff;
+  background-color: #3B5998;
+  border-color: #3B5998;
+}
+.btn-facebook:hover,
+.btn-facebook:focus,
+.btn-facebook:active {
+  color: #ffffff;
+  background-color: #294E9D;
+  border-color: #294E9D;
+}
+
+
+/* ==========================================================================
    						MEDIA QEURIES
    ========================================================================== */
 
@@ -161,6 +191,9 @@ body {
     color: #ccc;
 
 }
+
+
+
 
 
 

@@ -53,6 +53,12 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
 
     	$scope.TwitterAuth = function () {
     		console.log("Calling Twitter Auth");
-    		$http.get('/auth/twitter');
+    		$http.get('/auth/twitter')
+                .success(function (data) {
+                    $scope.userName = data.userName;
+                    $scope.userHeadlines = data.userHeadlines;
+                    // ....
+                });
+
     	}
 }]);
