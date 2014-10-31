@@ -94,6 +94,22 @@ module.exports = function(app) {
             }
     });
 
+    // Update example
+    // db.headlines.update({"_id": ObjectId("544f054c9eb0f0de281a36c2")}, {"$inc": {"voteCount": 1}})
+
+    // upvote a headline
+    app.get('headline/upvote/:headlineId'){
+      var headlineId = req.params.headlineId;
+
+      Headline.find({
+        "headlineId": headlineId
+      }).exec(function(err, headline){
+        if (headline == 1){
+
+        }
+      })
+    }
+
     // get 10 latests articles after date
     app.get('/articles/:userId/:number', function(req, res) {
         var limit = 20;
