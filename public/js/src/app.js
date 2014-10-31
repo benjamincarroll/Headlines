@@ -37,12 +37,21 @@ angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$l
 angular.module('Headlines').controller("ArticlesCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
     	$scope.$parent.currentTab = 'Articles';
+        $scope.dataReady = false;
+
+        $http.get('/articles/0')
+            .success(function (data) {
+                $scope.lines = data;
+                console.log(data);
+                $scope.dataReady = true;
+            });
 }]);
 
 angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
     	$scope.$parent.currentTab = 'Profile';
     	$scope.headline = '';
+        $('#signInModal').modal('show');
 
     	$scope.PostHeadline = function () {
     		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : moment().unix(), 'voteCount' : 0})

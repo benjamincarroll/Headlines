@@ -1,1 +1,15 @@
-<div style="padding:7px;">Articles</div>
+<div ng-show="dataReady">
+	<div id="lines">
+		<ul class="">
+			<li class="flipInX animated card" ng-repeat="article in collection">
+				<div class="item">
+					<h4 class="headline">{{article.headline}}</h4>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div ng-show="!dataReady" style="padding:7px; text-align:center;">
+	<img src="../../../img/loading.gif">
+</div>
