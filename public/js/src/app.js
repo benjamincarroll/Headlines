@@ -19,6 +19,22 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
+angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$location', '$window', '$http',
+    function ($scope, $route, $location, $window, $http) {
+        
+        $scope.TwitterAuth = function () {
+            console.log("Calling Twitter Auth");
+            $http.get('/auth/twitter')
+                .success(function (data) {
+                    console.log("Successful call, here's the data..");
+                    console.log(data);
+                });
+
+        }
+
+
+}]);
+
 angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
     	$scope.$parent.currentTab = 'Headlines';
