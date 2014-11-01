@@ -154,23 +154,21 @@ module.exports = function(app) {
           });
   });
 
-  // get the article with specified headlineId
-  app.get('/article/:headlineId', function(req, res) {
+  // get the 20 newest articles, after specified number
+  // Ex. to get newest articles 20-40 "/articles/20"
+  app.get('/articles/:number', function(req, res) {
       var limit = 20;
-      var headlineId = req.params.headlineId
+      var number = req.params.number
 
-      Article.find({
-                "headlineId": headlineId
-            })
-            .exec(function(err, article) {
+      Article.find()
+          .skip(number)
+          .limit(limit)
+          .sort({
+              dateCreated: -1
+          }).exec(function(err, articles) {
               if (err) return error_handler(err, req, res);
-              console.log("article length: " + article.length);
-              if (article.length > 1){
-                  // need to send 500 (server error)
-                  // more than one headlineId
-              } else {
-                res.json(article);
-              }
+              res.json(articles);
+              console.log("20 articles have been sent, starting with: " + req.params.number);
           });
   });
 }

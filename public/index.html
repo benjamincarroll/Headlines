@@ -49,7 +49,13 @@
             <li ng-class="{'active': currentTab == 'Headlines' }" id="mobile-links"><a href="#/Headlines">Headlines</a></li>
             <li ng-class="{'active': currentTab == 'Profile' }" id="mobile-links"><a href="#/Profile">Profile</a></li>
           </ul>
-          <img id="profile-thumbnail" class="navbar-right" src="img/defaultprofile.png">
+          <div class="dropdown">
+            <img id="profile-thumbnail" class="navbar-right dropdown-toggle" src="img/defaultprofile.png" data-toggle="dropdown">
+            <ul class="profile-dropdown dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="profile-thumbnail">
+              <li ng-show="loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="#">Sign Out</a></li>
+              <li ng-show="!loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="#">Sign In</a></li>
+            </ul>
+          </div>
         </div><!--/.navbar-collapse -->
       </div>
     </div>
@@ -66,14 +72,7 @@
         </nav>
       </div>
 
-      <div ng-view>
-        <div class="form-group">
-          <input id="search-field" type="text" placeholder="Search" class="form-control">
-          <button id="search-btn" type="submit" class="btn btn-success">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </div>
-      </div>
+      <div ng-view></div>
 
       <div id="signInModal" class="modal fade">
         <div class="modal-dialog">
