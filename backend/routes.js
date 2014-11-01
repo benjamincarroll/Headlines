@@ -94,21 +94,17 @@ module.exports = function(app) {
             }
     });
 
-    // Update example
-    // db.headlines.update({"_id": ObjectId("544f054c9eb0f0de281a36c2")}, {"$inc": {"voteCount": 1}})
-
     // upvote a headline
-    app.get('headline/upvote/:headlineId'){
+    app.post('/headlines/upvote/:headlineId', function(req,res){
       var headlineId = req.params.headlineId;
-
-      Headline.find({
-        "headlineId": headlineId
-      }).exec(function(err, headline){
-        if (headline == 1){
-
-        }
-      })
-    }
+      console.log("upvoting headline with id: " + headlineId);
+      Headline.update({"_id": headlineId}, {"$inc": {"voteCount": 1}}).exec(function(err, headline){
+        if (error) return error_handler(err, req, res);
+        res.send({
+          "success": true
+        });
+      });
+    });
 
     // get 10 latests articles after date
     app.get('/articles/:userId/:number', function(req, res) {
