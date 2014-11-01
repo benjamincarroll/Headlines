@@ -64,9 +64,8 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
     		console.log("Calling Twitter Auth");
     		$http.get('/auth/twitter')
                 .success(function (data) {
-                    $scope.userName = data.userName;
-                    $scope.userHeadlines = data.userHeadlines;
-                    // ....
+                    console.log("Successful call, here's the data..");
+                    console.log(data);
                 });
 
     	}
