@@ -18,7 +18,9 @@ var userSchema = mongoose.Schema({
   },
 
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: Date,
+
+  votes: [String]
 });
 
 // methods ======================

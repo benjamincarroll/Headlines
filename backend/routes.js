@@ -1,6 +1,7 @@
 var Article = require('./models/article.js');
 var Headline = require('./models/headlines.js')
 var error_handler = require('./error_handling.js');
+var User = require('./models/user.js');
 
 // Headline routes
 module.exports = function(app) {
@@ -95,15 +96,38 @@ module.exports = function(app) {
     });
 
     // upvote a headline
-    app.post('/headlines/upvote/:headlineId', function(req,res){
+    app.post('/headlines/upvote/:headlineId/:userId', function(req,res){
       var headlineId = req.params.headlineId;
-      console.log("upvoting headline with id: " + headlineId);
-      Headline.update({"_id": headlineId}, {"$inc": {"voteCount": 1}}).exec(function(err, headline){
-        if (error) return error_handler(err, req, res);
-        res.send({
-          "success": true
+      var userId = req.params.userId;
+
+      User.findOne({
+        "_id": userId
+      }).exec(function(err, user){
+        console.log(user);
+        var headlineIds = user.votes;
+        for (var i = 0; i < headlineIds.length; i++){
+          if (headlineIds[i] == headlineId){
+            res.send({
+              "success" : false,
+              "message" : "User has already upvoted this headline"
+            });
+            return;
+          }
+        }
+        User.update({"_id": userId}, {$push : {"votes": headlineId}}).exec(function(err, users){
+          if (err) return error_handler(err, req, res);
+          console.log("Something else has been done");
+
+          Headline.update({"_id": headlineId}, {"$inc": {"voteCount": 1}}).exec(function(err, headline){
+            if (err) return error_handler(err, req, res);
+            console.log("Done for now");
+              res.send({
+              "success": true
+            })
+          });
         });
-      });
+      })
+
     });
 
     // get 10 latests articles after date
