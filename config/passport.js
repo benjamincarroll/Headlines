@@ -18,8 +18,8 @@ passport.deserializeUser(function(id, done) {
 passport.use(new TwitterStrategy(secrets.twitter, function(req, accessToken, tokenSecret, profile, done) {
   process.nextTick(function() {
     if (req.user) {
-      User.findOne({ twitter: profile.id }, function(err, existingUser) {
-        if (existingUser) {
+      User.findOne({ twitter: profile.id }, function(err, user) {
+        if (user) {
           // User already existed. Return that user
           return done(err, user);
         } else {
