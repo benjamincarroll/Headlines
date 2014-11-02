@@ -20,6 +20,7 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   }
 });
 
+
 // configuration =================
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,11 +41,26 @@ app.use(flash());
 // renders static pages
 app.use(express.static(__dirname + '/public'));
 
+app.set('view engine', 'ejs'); // set up ejs for templating
+
 // Twitter oAuth
 app.get('/auth/twitter', passport.authenticate('twitter'));
-app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
-  res.redirect('/');
+// app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
+//   res.redirect('/#/Profile');
+// });
+
+// route for showing the profile page
+app.get('/profile', function(req, res) {
+    res.render('/public/js/src/templates/profile.html', {
+        user : req.user // get the user out of session and pass to template
+    });
 });
+
+app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', {
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
 
 // route for logging out
 app.get('/logout', function(req, res) {
