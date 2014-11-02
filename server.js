@@ -38,10 +38,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+// app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+
 // renders static pages
 app.use(express.static(__dirname + '/public'));
-
-app.set('view engine', 'ejs'); // set up ejs for templating
 
 // Twitter oAuth
 app.get('/auth/twitter', passport.authenticate('twitter'));
@@ -51,9 +52,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 // route for showing the profile page
 app.get('/profile', function(req, res) {
-    res.render('/public/js/src/templates/profile.html', {
-        user : req.user // get the user out of session and pass to template
-    });
+    res.redirect('/');
 });
 
 app.get('/auth/twitter/callback',

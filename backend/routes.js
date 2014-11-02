@@ -96,14 +96,19 @@ module.exports = function(app) {
     });
 
     // upvote a headline
-    app.post('/headlines/upvote/:headlineId', function(req,res){
+    app.post('/headlines/upvote/:headlineId/:userId', function(req,res){
       var headlineId = req.params.headlineId;
+      var userId = req.params.userId;
+
       console.log("upvoting headline with id: " + headlineId);
       Headline.update({"_id": headlineId}, {"$inc": {"voteCount": 1}}).exec(function(err, headline){
         if (error) return error_handler(err, req, res);
-        res.send({
-          "success": true
-        });
+        console.log("Done for now");
+      });
+
+      Users.update({"_id": userId}, {$push : {"votes": headlineId}}).exec(function(err, users){
+        if (error) return error_handler(err, req, res);
+        console.log("Something else has been done");
       });
     });
 
