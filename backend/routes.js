@@ -207,10 +207,4 @@ module.exports = function(app) {
               console.log("20 articles have been sent, starting with: " + req.params.number);
           });
   });
-
-  // get the userInformation
-  app.get('/userInfo/:twitterId', function(req, res){
-    var twitterId = req.params.twitterId;
-    User
-  });
 }
