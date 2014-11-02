@@ -8,23 +8,23 @@ module.exports = function(app) {
 
     // middleware to use for all requests, this will be used for
     // all get/post requests
-    // app.use(function(req, res, next) {
-    //     if (req.method == 'POST'){
-    //       if (req.isAuthenticated()){
-    //         // if the request is a POST and they are authenticated,
-    //         // let them through
-    //         next();
-    //       } else {
-    //         res.json({
-    //           status: 'failed request',
-    //           message: 'User is not signed in'
-    //         })
-    //       }
-    //     } else {
-    //       // If the request is a httpGet. Let anyone through.
-    //       next();
-    //     }
-    // })
+    app.use(function(req, res, next) {
+        if (req.method == 'POST'){
+          if (req.isAuthenticated()){
+            // if the request is a POST and they are authenticated,
+            // let them through
+            next();
+          } else {
+            res.json({
+              status: 'failed request',
+              message: 'User is not signed in'
+            })
+          }
+        } else {
+          // If the request is a httpGet. Let anyone through.
+          next();
+        }
+    })
 
     // Test get request
     app.get('/yay', function(req, res) {
