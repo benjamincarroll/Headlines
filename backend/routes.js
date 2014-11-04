@@ -13,7 +13,6 @@ module.exports = function(app) {
           if (req.isAuthenticated()){
             // if the request is a POST and they are authenticated,
             // let them through
-            console.log("User info: " + req.user);
             next();
           } else {
             res.json({
@@ -23,7 +22,6 @@ module.exports = function(app) {
           }
         } else {
           // If the request is a httpGet. Let anyone through.
-          console.log("User info: " + req.user);
           next();
         }
     })
@@ -33,6 +31,16 @@ module.exports = function(app) {
         res.json({
             message: 'hooray! We rock!'
         });
+    });
+
+    // route for logging out
+    app.get('/logout', function(req, res) {
+
+
+
+
+        req.logout();
+        res.redirect('/');
     });
 
     // post an article
@@ -210,6 +218,8 @@ module.exports = function(app) {
           });
   });
 
-  // get userInformation
+  // update example: db.users.update({"_id": ObjectId("5458541a5400d33a75b7fc9c")}, { $set: {"signedIn":false}})
 
+  // get userInformation
+  app.
 }
