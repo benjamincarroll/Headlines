@@ -13,6 +13,7 @@ module.exports = function(app) {
           if (req.isAuthenticated()){
             // if the request is a POST and they are authenticated,
             // let them through
+            console.log("User info: " + req.user);
             next();
           } else {
             res.json({
@@ -22,6 +23,7 @@ module.exports = function(app) {
           }
         } else {
           // If the request is a httpGet. Let anyone through.
+          console.log("User info: " + req.user);
           next();
         }
     })
@@ -207,4 +209,7 @@ module.exports = function(app) {
               console.log("20 articles have been sent, starting with: " + req.params.number);
           });
   });
+
+  // get userInformation
+
 }
