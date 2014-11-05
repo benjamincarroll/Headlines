@@ -61,12 +61,6 @@ app.get('/auth/twitter/callback',
         failureRedirect : '/'
     }));
 
-// route for logging out
-app.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
 // backend routes
 var router = express.Router();   // instance of the express router
 require('./backend/routes')(app,router);
