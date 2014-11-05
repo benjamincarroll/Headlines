@@ -33,6 +33,15 @@ module.exports = function(app) {
         });
     });
 
+    // route for logging out
+    app.get('/logout', function(req, res) {
+
+        db.users.update({"signedIn": true}, { $set: {"signedIn":false}})
+
+        req.logout();
+        res.redirect('/');
+    });
+
     // post an article
     app.post('/article', function(req, res) {
         console.log(req.body.userId);
@@ -206,5 +215,26 @@ module.exports = function(app) {
               res.json(articles);
               console.log("20 articles have been sent, starting with: " + req.params.number);
           });
+  });
+
+
+  // get userInformation
+  app.get('/userInfo', function(req, res){
+    User.find({
+      "signedIn": true
+    }).exec(function(err, users){
+      if (err) return error_handler(err, req, res);
+      if (users.length == 1){
+        console.log("Get userInfo successful. Sending data.")
+        res.send(users[0].profile);
+      } else if (users.length == 0) {
+        res.send({"success": false,
+                  "message": "No users are signed in"});
+        console.log("userInfo requested, no users signed in");
+      } else {
+        console.log("Multiple users are signed in. Server error");
+        res.send(500);
+      }
+    })
   });
 }

@@ -17,6 +17,7 @@ var userSchema = mongoose.Schema({
     picture: { type: String, default: '' }
   },
 
+  signedIn: Boolean,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 
