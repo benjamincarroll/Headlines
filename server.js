@@ -20,6 +20,14 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   }
 });
 
+var CronJob = require('cron').CronJob;
+new CronJob('00 00 8 * * *', function(){
+  // Check for most pupular headlines
+  //    1. Check if there already is an article in db
+  //    2. Post article to site
+  // else
+  //    Send email to user prompting them to submit an article
+}, null, true);
 
 // configuration =================
 app.use(cookieParser());
