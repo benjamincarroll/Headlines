@@ -21,7 +21,14 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$location', '$window', '$http',
     function ($scope, $route, $location, $window, $http) {
-        
+
+        $scope.user = null;
+
+        // $http.get('/userinfo')
+        //     .success(function (data) {
+        //         console.log("user info fetched")
+        //     });
+
         $scope.TwitterAuth = function () {
             console.log("Calling Twitter Auth");
             $http.get('/auth/twitter')
@@ -30,6 +37,20 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
                     console.log(data);
                 });
 
+        }
+
+        // $scope.FacebookAuth = function () {
+        //     console.log("Calling Facebook Auth");
+        //     $http.get('/auth/facebook')
+        //         .success(function (data) {
+        //             console.log("Successful call, here's the data..");
+        //             console.log(data);
+        //         });
+
+        // }
+
+        $scope.ShowSignInModal = function () {
+            $('#signInModal').modal('show');
         }
 
 
@@ -46,6 +67,15 @@ angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$l
                 console.log(data);
                 $scope.dataReady = true;
             });
+
+        $scope.vote = function (headline) {
+            if ($scope.user == null) {
+                $scope.ShowSignInModal();
+            }
+            else {
+                // $http.post()
+            }
+        }
 
 
 }]);
@@ -67,7 +97,10 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
     function ($scope, $route, $location, $window, $http) {
     	$scope.$parent.currentTab = 'Profile';
     	$scope.headline = '';
-        $('#signInModal').modal('show');
+        if ($scope.user == null) {
+            $scope.ShowSignInModal();
+        }
+        
 
     	$scope.PostHeadline = function () {
     		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : moment().unix(), 'voteCount' : 0})
