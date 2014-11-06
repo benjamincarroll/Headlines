@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
+var CronJob = require('cron').CronJob;
 
 // Connect to the
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
@@ -20,7 +21,6 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
   }
 });
 
-var CronJob = require('cron').CronJob;
 new CronJob('00 00 8 * * *', function(){
   // Check for most pupular headlines
   //    1. Check if there already is an article in db
