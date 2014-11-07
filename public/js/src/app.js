@@ -1,4 +1,5 @@
-var app = angular.module('Headlines', [ 'ngRoute']);
+var app = angular.module('Headlines', [ 'ngRoute', 'ngCookies' ]);
+// angular.module('cookiesExample', ['ngCookies'])
 
 app.config(['$routeProvider', function ($routeProvider) {
   	$routeProvider
@@ -19,9 +20,17 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$location', '$window', '$http',
-    function ($scope, $route, $location, $window, $http) {
-        
+// angular.module('cookiesExample', ['ngCookies'])
+// .controller('ExampleController', ['$cookies', function($cookies) {
+//   // Retrieving a cookie
+//   var favoriteCookie = $cookies.myFavorite;
+//   // Setting a cookie
+//   $cookies.myFavorite = 'oatmeal';
+// }]);
+
+angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$location', '$window', '$http', '$cookies',
+    function ($scope, $route, $location, $window, $http, $cookies) {
+
         $scope.TwitterAuth = function () {
             console.log("Calling Twitter Auth");
             $http.get('/auth/twitter')
@@ -32,6 +41,14 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
 
         }
 
+        $http.get('/yay')
+            .success(function (data) {
+                console.log(data.message);
+            });
+
+      // Retrieving a cookie
+      var favoriteCookie = $cookies.Fuck;
+      console.log(favoriteCookie);
 
 }]);
 
