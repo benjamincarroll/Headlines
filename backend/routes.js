@@ -28,9 +28,17 @@ module.exports = function(app) {
 
     // Test get request
     app.get('/yay', function(req, res) {
-        res.json({
-            message: 'hooray! We rock!'
-        });
+        console.log("We've been hit!");
+        res.cookie("Fuck", "yes");
+        if (req.isAuthenticated()){
+          res.json({
+              message: 'hooray! We rock!'
+          });
+        } else {
+          res.json({
+            message: 'fuck you'
+          });
+        }
     });
 
     // route for logging out
