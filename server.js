@@ -11,6 +11,7 @@ var passport = require('passport');
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 var CronJob = require('cron').CronJob;
+var crypto = require('crypto');
 
 // Connect to the
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
@@ -60,6 +61,16 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 // route for showing the profile page
 app.get('/profile', function(req, res) {
+
+    var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
+    var key = 'truck yeah motherfuckers';
+    var text = 'I love kittens';
+
+    var cipher = crypto.createCipher(algorithm, key);
+    var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
+
+    console.log("This is the key: " + encrypted);
+    res.cookie("hello", encrypted);
     res.redirect('/');
 });
 
@@ -80,3 +91,7 @@ app.listen(port);
 console.log('Magic happens on port ' + port);
 
 module.exports = app;
+
+// Encryption/Decryption StackOverFlow linkes:
+// http://stackoverflow.com/questions/18279141/javascript-string-encryption-and-decryption
+// http://stackoverflow.com/questions/6953286/node-js-encrypting-data-that-needs-to-be-decrypted
