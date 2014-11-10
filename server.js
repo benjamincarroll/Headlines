@@ -64,7 +64,7 @@ app.get('/profile', function(req, res) {
 
     var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
     var key = 'truck yeah motherfuckers';
-    var text = 'I love kittens';
+    var text = 'big dickkkk';
 
     var cipher = crypto.createCipher(algorithm, key);
     var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
