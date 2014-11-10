@@ -47,7 +47,7 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
             });
 
       // Retrieving a cookie
-      var favoriteCookie = $cookies.Fuck;
+      var favoriteCookie = $cookies.hello;
       console.log(favoriteCookie);
 
 }]);
