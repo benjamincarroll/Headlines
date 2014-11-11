@@ -12,6 +12,7 @@ var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 var CronJob = require('cron').CronJob;
 var crypto = require('crypto');
+var hat = require('hat');
 
 // Connect to the
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
@@ -55,43 +56,30 @@ app.use(express.static(__dirname + '/public'));
 
 // Twitter oAuth
 app.get('/auth/twitter', passport.authenticate('twitter'));
-// app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
-//   res.redirect('/#/Profile');
-// });
-
-// route for showing the profile page
-app.get('/profile', function(req, res) {
-
-    var algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
-    var key = 'truck yeah motherfuckers';
-    var text = 'big dickkkk';
-
-    var cipher = crypto.createCipher(algorithm, key);
-    var encrypted = cipher.update(text, 'utf8', 'hex') + cipher.final('hex');
-
-    console.log("This is the key: " + encrypted);
-    res.cookie("hello", encrypted);
-    res.redirect('/');
-});
-
 app.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
         successRedirect : '/profile',
         failureRedirect : '/'
-    }));
+    })
+);
+
+// route for showing the profile page after login
+app.get('/profile', function(req, res) {
+    var id = hat();
+    var sess = req.session.hello = id;
+    // console.log("Session: " + userInfo);
+    res.cookie("hello", id);
+    res.redirect('/');
+});
 
 // backend routes
 var router = express.Router();   // instance of the express router
 require('./backend/routes')(app,router);
 
-
-// START THE SERVER
+// start the server
 var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
 module.exports = app;
 
-// Encryption/Decryption StackOverFlow linkes:
-// http://stackoverflow.com/questions/18279141/javascript-string-encryption-and-decryption
-// http://stackoverflow.com/questions/6953286/node-js-encrypting-data-that-needs-to-be-decrypted
