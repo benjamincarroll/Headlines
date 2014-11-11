@@ -9,7 +9,15 @@ module.exports = function(app) {
     // middleware to use for all requests, this will be used for
     // all get/post requests
     app.use(function(req, res, next) {
+        var token = req.headers.token;
+
         if (req.method == 'POST'){
+
+          if (req.session.hello == token){
+            // they are authenticated
+          } else {
+            // send error code and redirect user
+          }
           if (req.isAuthenticated()){
             // if the request is a POST and they are authenticated,
             // let them through
@@ -18,7 +26,7 @@ module.exports = function(app) {
             res.json({
               status: 'failed request',
               message: 'User is not signed in'
-            })
+            });
           }
         } else {
           // If the request is a httpGet. Let anyone through.
@@ -28,9 +36,17 @@ module.exports = function(app) {
 
     // Test get request
     app.get('/yay', function(req, res) {
-        res.json({
-            message: 'hooray! We rock!'
-        });
+        console.log("We've been hit!");
+        console.log("The session cookie is: " + req.session.hello);
+        if (req.isAuthenticated()){
+          res.json({
+              message: 'hooray! We rock!'
+          });
+        } else {
+          res.json({
+            message: 'fuck you'
+          });
+        }
     });
 
     // route for logging out

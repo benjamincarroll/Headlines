@@ -11,6 +11,8 @@ var passport = require('passport');
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 var CronJob = require('cron').CronJob;
+var crypto = require('crypto');
+var hat = require('hat');
 
 // Connect to the
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
@@ -54,29 +56,30 @@ app.use(express.static(__dirname + '/public'));
 
 // Twitter oAuth
 app.get('/auth/twitter', passport.authenticate('twitter'));
-// app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function(req, res) {
-//   res.redirect('/#/Profile');
-// });
-
-// route for showing the profile page
-app.get('/profile', function(req, res) {
-    res.redirect('/');
-});
-
 app.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
         successRedirect : '/profile',
         failureRedirect : '/'
-    }));
+    })
+);
+
+// route for showing the profile page after login
+app.get('/profile', function(req, res) {
+    var id = hat();
+    var sess = req.session.hello = id;
+    // console.log("Session: " + userInfo);
+    res.cookie("hello", id);
+    res.redirect('/');
+});
 
 // backend routes
 var router = express.Router();   // instance of the express router
 require('./backend/routes')(app,router);
 
-
-// START THE SERVER
+// start the server
 var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Magic happens on port ' + port);
 
 module.exports = app;
+

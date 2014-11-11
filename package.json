@@ -21,6 +21,7 @@
     "passport-twitter": "^1.0.2",
     "request": "latest",
     "winston": "latest",
-    "cron": "1.0.5"
+    "cron": "1.0.5",
+    "hat": "0.0.3"
   }
 }

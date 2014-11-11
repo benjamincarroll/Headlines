@@ -1,4 +1,5 @@
-var app = angular.module('Headlines', [ 'ngRoute']);
+var app = angular.module('Headlines', [ 'ngRoute', 'ngCookies' ]);
+// angular.module('cookiesExample', ['ngCookies'])
 
 app.config(['$routeProvider', function ($routeProvider) {
   	$routeProvider
@@ -19,9 +20,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$location', '$window', '$http',
-    function ($scope, $route, $location, $window, $http) {
-
+angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$location', '$window', '$http', '$cookies',
+    function ($scope, $route, $location, $window, $http, $cookies) {
         $scope.user = null;
 
         // $http.get('/userinfo')
@@ -39,6 +39,14 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
 
         }
 
+        $http.get('/yay').success(function (data) {
+                console.log(data.message);
+        });
+
+        // Retrieving a cookie
+        var favoriteCookie = $cookies.hello;
+        console.log(favoriteCookie);
+
         // $scope.FacebookAuth = function () {
         //     console.log("Calling Facebook Auth");
         //     $http.get('/auth/facebook')
@@ -46,7 +54,6 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
         //             console.log("Successful call, here's the data..");
         //             console.log(data);
         //         });
-
         // }
 
         $scope.ShowSignInModal = function () {
@@ -100,7 +107,7 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
         if ($scope.user == null) {
             $scope.ShowSignInModal();
         }
-        
+
 
     	$scope.PostHeadline = function () {
     		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : moment().unix(), 'voteCount' : 0})
