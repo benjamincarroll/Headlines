@@ -53,7 +53,7 @@
             <img id="profile-thumbnail" class="navbar-right dropdown-toggle" src="img/defaultprofile.png" data-toggle="dropdown">
             <ul class="profile-dropdown dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="profile-thumbnail">
               <li ng-show="loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="#">Sign Out</a></li>
-              <li ng-show="!loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="#">Sign In</a></li>
+              <li ng-show="!loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" ng-click="ShowSignInModal()">Sign In</a></li>
             </ul>
           </div>
         </div><!--/.navbar-collapse -->
