@@ -43,6 +43,11 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
                 console.log(data.message);
         });
 
+        $http.get('/userInfo').success(function (data) {
+                console.log(data.name);
+        });
+
+
         // Retrieving a cookie
         var favoriteCookie = $cookies.hello;
         console.log(favoriteCookie);
