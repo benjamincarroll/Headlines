@@ -10,14 +10,7 @@ module.exports = function(app) {
     // all get/post requests
     app.use(function(req, res, next) {
         var token = req.headers.token;
-
         if (req.method == 'POST'){
-
-          if (req.session.hello == token){
-            // they are authenticated
-          } else {
-            // send error code and redirect user
-          }
           if (req.isAuthenticated()){
             // if the request is a POST and they are authenticated,
             // let them through
@@ -100,57 +93,72 @@ module.exports = function(app) {
             } else {
               console.log("Bad data");
             }
-            if (!headline) {
-                Headline.create({
-                    article: req.body.article,
-                    userId: req.body.userId,
-                    headline: req.body.headline,
-                    dateCreated: req.body.dateCreated,
-                    voteCount: req.body.voteCount
-                }, function(err, headline) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        res.send({
-                            status: "Success",
-                            headlineId: headline._id
-                        });
-                    }
-                });
-            }
+            Headline.create({
+                article: req.body.article,
+                userId: req.body.userId,
+                headline: req.body.headline,
+                dateCreated: req.body.dateCreated,
+                voteCount: req.body.voteCount,
+                threshold: req.body.threshold
+            }, function(err, headline) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send({
+                        status: "Success",
+                        headlineId: headline._id
+                    });
+                }
+            });
     });
 
     // upvote a headline
     app.post('/headlines/upvote/:headlineId/:userId', function(req,res){
       var headlineId = req.params.headlineId;
       var userId = req.params.userId;
+      console.log("Here's the data: " + headlineId + "    " + userId);
 
       User.findOne({
         "_id": userId
       }).exec(function(err, user){
-        console.log(user);
-        var headlineIds = user.votes;
-        for (var i = 0; i < headlineIds.length; i++){
-          if (headlineIds[i] == headlineId){
-            res.send({
-              "success" : false,
-              "message" : "User has already upvoted this headline"
-            });
-            return;
-          }
-        }
-        User.update({"_id": userId}, {$push : {"votes": headlineId}}).exec(function(err, users){
-          if (err) return error_handler(err, req, res);
-          console.log("Something else has been done");
-
-          Headline.update({"_id": headlineId}, {"$inc": {"voteCount": 1}}).exec(function(err, headline){
-            if (err) return error_handler(err, req, res);
-            console.log("Done for now");
+        if (user){
+          console.log(user);
+          var headlineIds = user.votes;
+          for (var i = 0; i < headlineIds.length; i++){
+            if (headlineIds[i] == headlineId){
               res.send({
-              "success": true
-            })
+                "success" : false,
+                "message" : "User has already upvoted this headline"
+              });
+              return;
+            }
+          }
+          User.update({"_id": userId}, {$push : {"votes": headlineId}}).exec(function(err, users){
+            if (err) return error_handler(err, req, res);
+            console.log("Something else has been done");
+
+            Headline.update({"_id": headlineId}, {"$inc": {"voteCount": 1}}).exec(function(err, headline){
+              if (err) return error_handler(err, req, res);
+
+              // check if the headline is at threshold, notify user to publish article
+              if (headline.voteCount == headline.threshold){
+                // email user/send push notification to mobile application
+                // TODO
+
+                console.log("At the THRESHOLD!");
+
+              }
+
+              console.log("Done for now");
+              res.send({
+                "success": true
+              })
+            });
           });
-        });
+        } else {
+          console.log("User does note exist");
+          res.send(401);
+        }
       })
 
     });
@@ -237,7 +245,7 @@ module.exports = function(app) {
   // get userInformation
   app.get('/userInfo', function(req, res){
     if (req.user){
-      console.log("UserId: " + req.user._id);
+      console.log("Current User: " + req.user);
       User.find({
         "_id": req.user._id
       }).exec(function(err, users){
@@ -246,11 +254,10 @@ module.exports = function(app) {
           console.log("Get userInfo successful. Sending data.")
           res.send(users[0].profile);
         } else if (users.length == 0) {
-          res.send({"success": false,
-                    "message": "No users are signed in"});
+          res.send(401);
           console.log("userInfo requested, no users signed in");
         } else {
-          console.log("Multiple users are signed in. Server error");
+          console.log("Multiple users are signed in. No idea why. Server error");
           res.send(500);
         }
       })
