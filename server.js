@@ -12,7 +12,9 @@ var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 var CronJob = require('cron').CronJob;
 var crypto = require('crypto');
-var hat = require('hat');
+
+
+var User = require('./backend/models/user.js');
 
 // Connect to the
 mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
@@ -65,10 +67,9 @@ app.get('/auth/twitter/callback',
 
 // route for showing the profile page after login
 app.get('/profile', function(req, res) {
-    var id = hat();
-    var sess = req.session.hello = id;
-    // console.log("Session: " + userInfo);
-    res.cookie("hello", id);
+
+    console.log("WHAT IS UP" + req.user.signedIn);
+    res.cookie("hello", req.user.signedIn);
     res.redirect('/');
 });
 
