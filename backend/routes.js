@@ -239,14 +239,8 @@ module.exports = function(app) {
     var user = req.user;
     if (user){
       console.log("UserId: " + req.user._id);
-        if (err) return error_handler(err, req, res);
-        if (users.length == 1){
-          console.log("Get userInfo successful. Sending data.")
-          res.send(user.profile);
-        } else {
-          console.log("Multiple users are signed in. Server error");
-          res.sendStatus(500);
-        }
+      console.log("Get userInfo successful. Sending data.")
+      res.send(user.profile);
     } else {
         res.sendStatus(401);
         console.log("userInfo requested, no users signed in");
