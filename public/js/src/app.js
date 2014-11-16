@@ -43,6 +43,7 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
 
         }
 
+
         // $scope.FacebookAuth = function () {
         //     console.log("Calling Facebook Auth");
         //     $http.get('/auth/facebook')
