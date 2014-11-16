@@ -10,7 +10,7 @@
 			<li class="flipInX animated card" ng-repeat="headline in lines">
 				<div class="item">
 					<h4 class="headline">{{headline.headline}}</h4>
-					<img class="vote" src="../../../img/vote.png">
+					<img ng-click="$parent.vote(this)" class="vote" src="../../../img/vote.png">
 					<span class="count">{{headline.voteCount}}</span>
 				</div>
 			</li>
