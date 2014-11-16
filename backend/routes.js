@@ -44,7 +44,7 @@ module.exports = function(app) {
           });
         } else {
           res.json({
-            message: 'fuck you'
+            message: 'not worrrrkiinnnngggg'
           });
         }
     });
@@ -236,24 +236,20 @@ module.exports = function(app) {
 
   // get userInformation
   app.get('/userInfo', function(req, res){
-    if (req.user){
+    var user = req.user;
+    if (user){
       console.log("UserId: " + req.user._id);
-      User.find({
-        "_id": req.user._id
-      }).exec(function(err, users){
         if (err) return error_handler(err, req, res);
         if (users.length == 1){
           console.log("Get userInfo successful. Sending data.")
-          res.send(users[0].profile);
-        } else if (users.length == 0) {
-          res.send({"success": false,
-                    "message": "No users are signed in"});
-          console.log("userInfo requested, no users signed in");
+          res.send(user.profile);
         } else {
           console.log("Multiple users are signed in. Server error");
-          res.send(500);
+          res.sendStatus(500);
         }
-      })
+    } else {
+        res.sendStatus(401);
+        console.log("userInfo requested, no users signed in");
     }
   });
 }

@@ -44,7 +44,7 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
         });
 
         $http.get('/userInfo').success(function (data) {
-                console.log(data.name);
+                console.log("This is the user: " + data.name);
         });
 
 
