@@ -26,32 +26,8 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
 
         $http.get('/userInfo')
                 .then(function (result) {
-                    if (result.status == 200) {
-                        console.log('here')
-                    } else {
-                        console.log('crap')
-                    }
+                    $scope.user = result.data.user;
                 })
-
-        $scope.TwitterAuth = function () {
-            console.log("Calling Twitter Auth");
-            $http.get('/auth/twitter')
-                .success(function (data) {
-                    console.log("Successful call, here's the data..");
-                    console.log(data);
-                });
-
-        }
-
-
-        // $scope.FacebookAuth = function () {
-        //     console.log("Calling Facebook Auth");
-        //     $http.get('/auth/facebook')
-        //         .success(function (data) {
-        //             console.log("Successful call, here's the data..");
-        //             console.log(data);
-        //         });
-        // }
 
         $scope.ShowSignInModal = function () {
             $('#signInModal').modal('show');
@@ -73,8 +49,9 @@ angular.module('Headlines').controller("HeadlinesCtrl", ['$scope', '$route', '$l
             });
 
         $scope.vote = function (headline) {
-            if ($scope.user == null) {
-                $scope.ShowSignInModal();
+            console.log('here')
+            if ($scope.$parent.user == null) {
+                $scope.$parent.ShowSignInModal();
             }
             else {
                 // $http.post()
@@ -103,8 +80,8 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
     	$scope.headline = '';
         
 
-        if ($scope.user == null) {
-            $scope.ShowSignInModal();
+        if ($scope.$parent.user == null) {
+            $scope.$parent.ShowSignInModal();
         }
 
     	$scope.PostHeadline = function () {
