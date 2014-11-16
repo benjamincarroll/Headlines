@@ -6,7 +6,8 @@ var PageSchema = new Schema({
   userId         : Number,
   headline       : String,
   dateCreated    : Number,
-  voteCount      : Number
+  voteCount      : Number,
+  threshold      : Number
 });
 
 module.exports = mongoose.model('headline', PageSchema);

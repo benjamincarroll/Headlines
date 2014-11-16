@@ -10,7 +10,6 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
-var CronJob = require('cron').CronJob;
 var crypto = require('crypto');
 
 
@@ -24,14 +23,6 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
     console.log("ERROR - We did not connect to server");
   }
 });
-
-new CronJob('00 00 8 * * *', function(){
-  // Check for most pupular headlines
-  //    1. Check if there already is an article in db
-  //    2. Post article to site
-  // else
-  //    Send email to user prompting them to submit an article
-}, null, true);
 
 // configuration =================
 app.use(cookieParser());
@@ -50,8 +41,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-// app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'ejs');
 
 // renders static pages
 app.use(express.static(__dirname + '/public'));
@@ -67,9 +56,6 @@ app.get('/auth/twitter/callback',
 
 // route for showing the profile page after login
 app.get('/profile', function(req, res) {
-
-    console.log("WHAT IS UP" + req.user.signedIn);
-    res.cookie("hello", req.user.signedIn);
     res.redirect('/');
 });
 
