@@ -24,10 +24,14 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
     function ($scope, $route, $location, $window, $http, $cookies) {
         $scope.user = null;
 
-        // $http.get('/userinfo')
-        //     .success(function (data) {
-        //         console.log("user info fetched")
-        //     });
+        $http.get('/userInfo')
+                .then(function (result) {
+                    if (result.status == 200) {
+                        console.log('here')
+                    } else {
+                        console.log('crap')
+                    }
+                })
 
         $scope.TwitterAuth = function () {
             console.log("Calling Twitter Auth");
@@ -38,19 +42,6 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
                 });
 
         }
-
-        $http.get('/yay').success(function (data) {
-                console.log(data.message);
-        });
-
-        $http.get('/userInfo').success(function (data) {
-                console.log("This is the user: " + data.name);
-        });
-
-
-        // Retrieving a cookie
-        var favoriteCookie = $cookies.hello;
-        console.log(favoriteCookie);
 
         // $scope.FacebookAuth = function () {
         //     console.log("Calling Facebook Auth");
@@ -109,10 +100,11 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
     function ($scope, $route, $location, $window, $http) {
     	$scope.$parent.currentTab = 'Profile';
     	$scope.headline = '';
+        
+
         if ($scope.user == null) {
             $scope.ShowSignInModal();
         }
-
 
     	$scope.PostHeadline = function () {
     		$http.post('/headline', { 'article' : false, 'userId' : 7, 'headline': $scope.headline, 'dateCreated' : moment().unix(), 'voteCount' : 0})
