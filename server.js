@@ -46,8 +46,8 @@ app.use(flash());
 app.use(express.static(__dirname + '/public'));
 
 // Twitter oAuth
-app.use('/auth/twitter', passport.authenticate('twitter'));
-app.use('/auth/twitter/callback',
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback',
     passport.authenticate('twitter', {
         successRedirect : '/profile',
         failureRedirect : '/'
