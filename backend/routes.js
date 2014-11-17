@@ -248,7 +248,7 @@ module.exports = function(app) {
     if (user){
       console.log("UserId: " + req.user._id);
       console.log("Get userInfo successful. Sending data.")
-      res.json({ user : statususer.profile });
+      res.json({ user : user.profile });
     } else {
         res.json({ user : null });
         console.log("userInfo requested, no users signed in");
