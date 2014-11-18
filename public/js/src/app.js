@@ -33,6 +33,13 @@ angular.module('Headlines').controller("MainCtrl", ['$scope', '$route', '$locati
             $('#signInModal').modal('show');
         }
 
+        $scope.SignOut = function () {
+            $http.get('/logout')
+                .success(function (result) {
+                    $scope.user = null;
+            });
+        }
+
 
 }]);
 
@@ -89,15 +96,5 @@ angular.module('Headlines').controller("ProfileCtrl", ['$scope', '$route', '$loc
     			.success(function () {
     				console.log('Headline created!')
     			});
-    	}
-
-    	$scope.TwitterAuth = function () {
-    		console.log("Calling Twitter Auth");
-    		$http.get('/auth/twitter')
-                .success(function (data) {
-                    console.log("Successful call, here's the data..");
-                    console.log(data);
-                });
-
     	}
 }]);

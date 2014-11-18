@@ -32,67 +32,70 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#/"><img src="img/logo.png"></a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="navbar-nav nav mobile-links">
-            <li ng-class="{'active': currentTab == 'Articles' }" id="mobile-links"><a href="#/Articles">Articles</a></li>
-            <li ng-class="{'active': currentTab == 'Headlines' }" id="mobile-links"><a href="#/Headlines">Headlines</a></li>
-            <li ng-class="{'active': currentTab == 'Profile' }" id="mobile-links"><a href="#/Profile">Profile</a></li>
-          </ul>
-          <div class="dropdown">
-            <img id="profile-thumbnail" class="navbar-right dropdown-toggle" src="img/defaultprofile.png" data-toggle="dropdown">
-            <ul class="profile-dropdown dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="profile-thumbnail">
-              <li ng-show="loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="#">Sign Out</a></li>
-              <li ng-show="!loggedin" role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" ng-click="ShowSignInModal()">Sign In</a></li>
-            </ul>
+    <div ng-controller="MainCtrl">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/"><img src="img/logo.png"></a>
           </div>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </div>
-
-    <div class="container" ng-controller="MainCtrl">
-      <div class="row">
-        <!-- Nav -->
-        <nav id="main-nav">
-          <ul class="nav nav-pills nav-justified">
-            <li ng-class="{'active': currentTab == 'Articles' }"><a href="#/Articles">Articles</a></li>
-            <li ng-class="{'active': currentTab == 'Headlines' }"><a href="#/Headlines">Headlines</a></li>
-            <li ng-class="{'active': currentTab == 'Profile' }"><a href="#/Profile">Profile</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <div ng-view></div>
-
-      <div id="signInModal" class="modal fade">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <h3 class="reset-header">Post Headlines. Write Articles. Get Recognized.</h3>
-              <h5>Login or create your new Headlines account now!</h5>
-              <a class="btn btn-login btn-twitter" href="auth/twitter"><i class="fa fa-twitter"></i>  Sign in with Twitter</a>
-              <a class="btn btn-login btn-facebook" ng-click="FacebookAuth()"><i class="fa fa-facebook"></i>  Sign in with Facebook</a>
-              <h5 class="promise">Don't worry, <strong>YOU</strong> choose when to post, not us!</h5>
+          <div class="navbar-collapse collapse">
+            <ul class="navbar-nav nav mobile-links">
+              <li ng-class="{'active': currentTab == 'Articles' }" id="mobile-links"><a href="#/Articles">Articles</a></li>
+              <li ng-class="{'active': currentTab == 'Headlines' }" id="mobile-links"><a href="#/Headlines">Headlines</a></li>
+              <li ng-class="{'active': currentTab == 'Profile' }" id="mobile-links"><a href="#/Profile">Profile</a></li>
+            </ul>
+            <div class="dropdown">
+              <img ng-show="!user.picture" id="profile-thumbnail" class="navbar-right dropdown-toggle" src="img/defaultprofile.png" data-toggle="dropdown">
+              <img ng-show="user.picture" id="profile-thumbnail" class="navbar-right dropdown-toggle" ng-src="{{user.picture}}" data-toggle="dropdown">
+              <ul class="profile-dropdown dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="profile-thumbnail">
+                <li ng-show="user" role="presentation"><a role="menuitem" tabindex="-1" ng-click="SignOut()">Sign Out</a></li>
+                <li ng-show="!user" role="presentation"><a role="menuitem" tabindex="-1" ng-click="ShowSignInModal()">Sign In</a></li>
+              </ul>
             </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
-      
-      <hr>
-      <footer id="footer">
-        <p>&copy; BS Studios 2014</p>
-      </footer>
-    </div> <!-- /container -->        
+          </div><!--/.navbar-collapse -->
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <!-- Nav -->
+          <nav id="main-nav">
+            <ul class="nav nav-pills nav-justified">
+              <li ng-class="{'active': currentTab == 'Articles' }"><a href="#/Articles">Articles</a></li>
+              <li ng-class="{'active': currentTab == 'Headlines' }"><a href="#/Headlines">Headlines</a></li>
+              <li ng-class="{'active': currentTab == 'Profile' }"><a href="#/Profile">Profile</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div ng-view></div>
+
+        <div id="signInModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <h3 class="reset-header">Post Headlines. Write Articles. Get Recognized.</h3>
+                <h5>Login or create your new Headlines account now!</h5>
+                <a class="btn btn-login btn-twitter" href="auth/twitter"><i class="fa fa-twitter"></i>  Sign in with Twitter</a>
+                <a class="btn btn-login btn-facebook" href="auth/facebook"><i class="fa fa-facebook"></i>  Sign in with Facebook</a>
+                <h5 class="promise">Don't worry, <strong>YOU</strong> choose when to post, not us!</h5>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        <hr>
+        <footer id="footer">
+          <p>&copy; BS Studios 2014</p>
+        </footer>
+      </div> <!-- /container -->
+    </div>        
         <!-- vendor -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
