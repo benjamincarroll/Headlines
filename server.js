@@ -8,6 +8,7 @@ var MongoStore = require('connect-mongo')({ session: session });
 var flash = require('express-flash');
 var mongoose = require('mongoose');
 var passport = require('passport');
+require('./config/passport.js')(passport)
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 var crypto = require('crypto');
@@ -54,9 +55,19 @@ app.get('/auth/twitter/callback',
     })
 );
 
+// route for facebook authentication and login
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+// handle the callback after facebook has authenticated the user
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
 // route for showing the profile page after login
 app.get('/profile', function(req, res) {
     res.redirect('/');
+    console.log("Made it!");
 });
 
 // backend routes
