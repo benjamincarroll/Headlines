@@ -45,8 +45,6 @@ module.exports = function(app) {
     // route for logging out
     app.get('/logout', function(req, res) {
 
-        db.users.update({"signedIn": true}, { $set: {"signedIn":false}})
-
         req.logout();
         res.redirect('/');
     });
