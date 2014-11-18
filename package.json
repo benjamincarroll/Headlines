@@ -1,7 +1,7 @@
 {
   "name": "Headlines",
   "version": "0.0.1",
-  "description": "Scrape le web.",
+  "description": "BS Studios",
   "main": "server.js",
   "author": "Scotch",
   "dependencies": {

@@ -1,5 +1,8 @@
 var passport = require('passport');
+
 var TwitterStrategy = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
 var secrets = require('./secrets');
 var User = require('../backend/models/user.js');
 

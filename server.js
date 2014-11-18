@@ -54,9 +54,21 @@ app.get('/auth/twitter/callback',
     })
 );
 
+// route for facebook authentication and login
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+// handle the callback after facebook has authenticated the user
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', {
+        successRedirect : '/profile',
+        failureRedirect : '/'
+    }));
+
+
 // route for showing the profile page after login
 app.get('/profile', function(req, res) {
     res.redirect('/');
+    console.log("Made it!");
 });
 
 // backend routes
