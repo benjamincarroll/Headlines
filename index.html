@@ -40,10 +40,12 @@
 <pre><code>/headline
 </code></pre>
 
+<p>If posting a headline without an article, simply do not include an article in the JSON. The server will stored it as an empty string. </p>
+
 <p>Sample body</p>
 
 <pre><code>{
-    "article": null,
+    "article": "This is an article",
     "userId": "546a9404e3650bc830d62466",
     "headline": "RHCP are the bomb",
     "dateCreated": 9765467,
