@@ -5,14 +5,14 @@ var User = require('./models/user.js');
 // Headline routes
 module.exports = function(app) {
 
-  // middleware to use for all requests, this will be used for
-  // all get/post requests
+  // Middleware for checking if user is authenticated
+  // 1. Post + authenticated -> :)
+  // 2. Post + !authentication -> :(
+  // 3. Get -> :)
   app.use(function(req, res, next) {
       var token = req.headers.token;
       if (req.method == 'POST'){
         if (req.isAuthenticated()){
-          // if the request is a POST and they are authenticated,
-          // let them through
           next();
         } else {
           res.json({
@@ -21,23 +21,7 @@ module.exports = function(app) {
           });
         }
       } else {
-        // If the request is a httpGet. Let anyone through.
         next();
-      }
-  });
-
-  // Test get request
-  app.get('/yay', function(req, res) {
-      console.log("We've been hit!");
-      if (req.isAuthenticated()){
-        console.log("Logged in");
-        res.json({
-            message: 'hooray! We rock!'
-        });
-      } else {
-        res.json({
-          message: 'not worrrrkiinnnngggg'
-        });
       }
   });
 
@@ -49,55 +33,56 @@ module.exports = function(app) {
 
   // post an headline
   app.post('/headline', function(req, res) {
-
-      var headlineId = req.body.headlineId;
-      // check if an article already exists
       Headline.findOne({
-              headlineId: req.body.headlineId
+              headline: req.body.headline,
+              userId: req.body.userId
           },
           function(error, headline) {
-              if (error) return error_handler(err, req, res);
 
+              if (error) return error_handler(err, req, res);
               if (!headline) {
                   Headline.create({
                       article: req.body.article,
                       userId: req.body.userId,
                       headline: req.body.headline,
-                      dateCreated: req.body.dateCreated,
+                      dateCreated: Math.round((new Date()).getTime() / 1000),
                       voteCount: req.body.voteCount,
                       threshold: req.body.threshold
                   }, function(err, headline) {
-                      if (err) {
-                          res.send(err);
-                      } else {
-                          res.send({
-                              status: "Success",
-                              headlineId: headline._id
-                          });
-                      }
+                    if (err) {
+                        res.send(err);
+                    } else {
+                      res.send({
+                          status: "Success",
+                          headlineId: headline._id
+                      });
+                    }
                   });
+              } else {
+                console.log("The Headline already exists: " + req.body.headline);
+                res.sendStatus(400);
               }
-          });
+        }
+      );
   });
 
-  // get 20 latests headlines after date
-  // get latest headlines 20-40 with userId 69
-  // /headlines/20
+  // get 20 latests headlines
+  // get latest headlines 20-40 -> /headlines/20
   app.get('/headlines/date/:number', function(req, res) {
-      var limit = 20;
-      var number = req.params.number
+    var limit = 20;
+    var number = req.params.number
 
-      Headline.find()
-          .limit(limit)
-          .skip(number)
-          .sort({
-              dateCreated: -1
-          })
-          .exec(function(err, headlines) {
-               if (err) return error_handler(err, req, res);
-          res.json(headlines);
-          console.log("20 headlines have been sent, starting with: " + req.params.number);
-          });
+    Headline.find()
+      .limit(limit)
+      .skip(number)
+      .sort({
+          dateCreated: -1
+      })
+      .exec(function(err, headlines) {
+           if (err) return error_handler(err, req, res);
+      res.json(headlines);
+      console.log("20 headlines have been sent, starting with: " + req.params.number);
+      });
   });
 
   // get the 20 most popular headlines, after specified number
@@ -153,14 +138,13 @@ module.exports = function(app) {
               console.log("At the THRESHOLD!");
             }
 
-            console.log("Done for now");
             res.send({
               "success": true
             })
           });
         });
       } else {
-        console.log("User does note exist");
+        console.log("User does not exist");
         res.send(401);
       }
     })
@@ -170,7 +154,6 @@ module.exports = function(app) {
   app.get('/userInfo', function(req, res){
     var user = req.user;
     if (user){
-      console.log("UserId: " + req.user._id);
       console.log("Get userInfo successful. Sending data.")
       res.json({ user : user.profile });
     } else {
@@ -179,3 +162,4 @@ module.exports = function(app) {
     }
   });
 }
+
