@@ -25,7 +25,7 @@ module.exports = function(app) {
           // If the request is a httpGet. Let anyone through.
           next();
         }
-    })
+    });
 
     // Test get request
     app.get('/yay', function(req, res) {
@@ -82,33 +82,26 @@ module.exports = function(app) {
             }
         })
     });
-
-    // post an headline
-    app.post('/headline', function(req, res) {
-            if (typeof req.body.article == 'boolean') {
-              // we should be doing faulty data checks everywhere
-              console.log("Good data");
-            } else {
-              console.log("Bad data");
-            }
-            Headline.create({
-                article: req.body.article,
-                userId: req.body.userId,
-                headline: req.body.headline,
-                dateCreated: req.body.dateCreated,
-                voteCount: req.body.voteCount,
-                threshold: req.body.threshold
-            }, function(err, headline) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.send({
-                        status: "Success",
-                        headlineId: headline._id
-                    });
-                }
+// post an headline
+app.post('/headline', function(req, res) {
+    Headline.create({
+        article: req.body.article,
+        userId: req.body.userId,
+        headline: req.body.headline,
+        dateCreated: req.body.dateCreated,
+        voteCount: req.body.voteCount,
+        threshold: req.body.threshold
+    }, function(err, headline) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send({
+                status: "Success",
+                headlineId: headline._id
             });
+        }
     });
+});
 
     // upvote a headline
     app.post('/headlines/upvote/:headlineId/:userId', function(req,res){
