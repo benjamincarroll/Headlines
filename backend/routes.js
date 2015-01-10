@@ -65,6 +65,7 @@ module.exports = function(app) {
   // post an headline
   app.post('/api/headline', function(req, res) {
       var article = req.body.article;
+      var user = req.user;
       if (article == null){
         article = "";
       }
@@ -79,7 +80,7 @@ module.exports = function(app) {
                 Headline.create({
                     article: article,
                     userId: req.body.userId,
-                    authorName: req.body.authorName,
+                    authorName: req.user.profile.name,
                     headline: req.body.headline,
                     dateCreated: Math.round((new Date()).getTime() / 1000),
                     voteCount: req.body.voteCount,
