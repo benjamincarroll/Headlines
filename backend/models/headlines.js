@@ -3,7 +3,7 @@ schema = mongoose.Schema;
 
 var HeadlineSchema = new schema({
   article        : String,
-  userId         : Number,
+  userId         : String,
   headline       : String,
   dateCreated    : Number,
   voteCount      : Number,
