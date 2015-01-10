@@ -1,5 +1,4 @@
-var Article = require('./models/article.js');
-var Headline = require('./models/headlines.js')
+var Headline = require('./models/headlines.js');
 var error_handler = require('./error_handling.js');
 var User = require('./models/user.js');
 
@@ -44,7 +43,6 @@ module.exports = function(app) {
 
     // route for logging out
     app.get('/logout', function(req, res) {
-
         req.logout();
         res.redirect('/');
     });
@@ -53,13 +51,13 @@ module.exports = function(app) {
     app.post('/article', function(req, res) {
         console.log(req.body.userId);
 
-        Article.findOne({
+        Headline.findOne({
             headlineId: req.body.headlineId
         }, function(error, article) {
             if (error) return error_handler(err, req, res);
 
             if (!article) {
-                Article.create({
+                Headline.create({
                     userId: req.body.userId,
                     headlineId: req.body.headlineId,
                     article: req.body.article,
@@ -82,6 +80,7 @@ module.exports = function(app) {
             }
         })
     });
+
 // post an headline
 app.post('/headline', function(req, res) {
     Headline.create({
@@ -135,9 +134,7 @@ app.post('/headline', function(req, res) {
               if (headline.voteCount == headline.threshold){
                 // email user/send push notification to mobile application
                 // TODO
-
                 console.log("At the THRESHOLD!");
-
               }
 
               console.log("Done for now");
@@ -151,7 +148,6 @@ app.post('/headline', function(req, res) {
           res.send(401);
         }
       })
-
     });
 
     // get 10 latests articles after date
@@ -171,7 +167,7 @@ app.post('/headline', function(req, res) {
                  if (err) return error_handler(err, req, res);
             res.json(articles);
             console.log("20 articles have been sent, starting with: " + req.params.number);
-            });
+          });
     });
 
     // get 20 latests headlines after date
@@ -202,16 +198,16 @@ app.post('/headline', function(req, res) {
       var limit = 20;
       var number = req.params.number
 
-      Headline.find()
-          .skip(number)
-          .limit(limit)
-          .sort({
-              voteCount: -1
-          }).exec(function(err, headlines) {
-              if (err) return error_handler(err, req, res);
-              res.json(headlines);
-              console.log("20 headlines have been sent, starting with: " + req.params.number);
-          });
+    Headline.find()
+        .skip(number)
+        .limit(limit)
+        .sort({
+            voteCount: -1
+        }).exec(function(err, headlines) {
+            if (err) return error_handler(err, req, res);
+            res.json(headlines);
+            console.log("20 headlines have been sent, starting with: " + req.params.number);
+        });
   });
 
   // get the 20 newest articles, after specified number
@@ -231,7 +227,6 @@ app.post('/headline', function(req, res) {
               console.log("20 articles have been sent, starting with: " + req.params.number);
           });
   });
-
 
   // get userInformation
   app.get('/userInfo', function(req, res){

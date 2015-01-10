@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var schema = mongoose.Schema;
 
-var PageSchema = new Schema({
+var HeadlineSchema = new schema({
   article        : String,
   userId         : Number,
   headline       : String,
@@ -10,4 +10,4 @@ var PageSchema = new Schema({
   threshold      : Number
 });
 
-module.exports = mongoose.model('headline', PageSchema);
+module.exports = mongoose.model('headline', HeadlineSchema);
