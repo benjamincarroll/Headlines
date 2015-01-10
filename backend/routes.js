@@ -22,7 +22,7 @@ function getHeadlinesHelper(filter, sortQuery, number, res){
     return;
   }
 
-  Headline.find({ "article": query })
+  Headline.find({ $or: [ {"link": {$ne: ""}}, { "article": query } ]})
   .limit(limit)
   .skip(number)
   .sort(sortQuery)
