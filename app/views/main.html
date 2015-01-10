@@ -24,7 +24,7 @@
         <ul ng-if="selectedTab === tabs[0]" class="headlines">
           <li class="row main-list__item" ng-repeat="headline in headlines">
             <div class="col-md-2 main-list__thumbnail">
-              <div class="image"></div>
+              <div class="image" style="background: url({{getRandomCat($index)}}); background-size: contain;"></div>
             </div>
             <div class="col-md-9 main-list__label">
               <div class="title">{{headline}}</div>

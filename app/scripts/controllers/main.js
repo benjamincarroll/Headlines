@@ -46,4 +46,7 @@ angular.module('headlinesApp')
     	console.debug(cat);
     	$scope.selectedCat = cat;
     };
+    $scope.getRandomCat = function($index){
+    	return '"http://thecatapi.com/api/images/get?format=src&results_per_page='+$index+1+'"';
+    }
   });
