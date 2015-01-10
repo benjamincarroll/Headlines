@@ -7,7 +7,8 @@ var HeadlineSchema = new schema({
   headline       : String,
   dateCreated    : Number,
   voteCount      : Number,
-  threshold      : Number
+  threshold      : Number,
+  category       : String
 });
 
 module.exports = mongoose.model('headline', HeadlineSchema);
