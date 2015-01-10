@@ -57,8 +57,10 @@
 <h2>
 <a id="get-the-20-latest-headlines" class="anchor" href="#get-the-20-latest-headlines" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET the 20 latest headlines</h2>
 
-<pre><code>/headlines/date/:number
+<pre><code>/headlines/:filter/date/:number
 </code></pre>
+
+<p>filter MUST be one of "pending", "completed", or "both"</p>
 
 <p>Examples</p>
 
@@ -92,8 +94,10 @@
 <h2>
 <a id="get-the-20-most-popular-headlines" class="anchor" href="#get-the-20-most-popular-headlines" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET the 20 most popular headlines</h2>
 
-<pre><code>/headlines/date/:number
+<pre><code>/headlines/:filter/date/:number
 </code></pre>
+
+<p>filter MUST be one of "pending", "completed", or "both"</p>
 
 <p>Examples</p>
 
