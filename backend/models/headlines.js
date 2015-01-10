@@ -3,11 +3,13 @@ schema = mongoose.Schema;
 
 var HeadlineSchema = new schema({
   article        : String,
-  userId         : String,
+  authorName     : String,
   headline       : String,
+  userId         : String,
   dateCreated    : Number,
   voteCount      : Number,
-  threshold      : Number
+  threshold      : Number,
+  subtitle       : String
 });
 
 module.exports = mongoose.model('headline', HeadlineSchema);
