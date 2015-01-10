@@ -6,9 +6,10 @@ var User = require('./models/user.js');
  * HELPER FUNCTIONS
  */
 
-function getHeadlinesHelper(filter, sortQuery, number, res){
+function getHeadlinesHelper(filter, sortQuery, number, res, findQuery){
   var limit = 20;
   var query;
+
 
   if (filter == "pending"){
     query = "";
@@ -22,15 +23,24 @@ function getHeadlinesHelper(filter, sortQuery, number, res){
     return;
   }
 
-  Headline.find({ "article": query })
-  .limit(limit)
-  .skip(number)
-  .sort(sortQuery)
-  .exec(function(err, headlines) {
-       if (err) return error_handler(err, req, res);
-  res.json(headlines);
-  console.log("20 headlines have been sent, starting with: " + number);
-  });
+  findHeadlinesWithQueries(limit, number, sortQuery, findQuery, res);
+
+}
+
+function getHeadlinesHelperWithCategories(){
+
+}
+
+function findHeadlinesWithQueries(limit, number, sortQuery, findQuery, res) {
+    Headline.find(findQuery)
+        .limit(limit)
+        .skip(number)
+        .sort(sortQuery)
+        .exec(function(err, headlines) {
+            if (err) return error_handler(err, req, res);
+            res.json(headlines);
+            console.log("20 headlines have been sent, starting with: " + number);
+        });
 }
 
 // Headline routes
@@ -82,7 +92,8 @@ module.exports = function(app) {
                     headline: req.body.headline,
                     dateCreated: Math.round((new Date()).getTime() / 1000),
                     voteCount: req.body.voteCount,
-                    threshold: req.body.threshold
+                    threshold: req.body.threshold,
+                    category: req.body.category
                 }, function(err, headline) {
                   if (err) {
                       res.send(err);
@@ -102,13 +113,14 @@ module.exports = function(app) {
   });
 
   // get 20 latests headlines
-  // get latest headlines 20-40 -> /headlines/20
+  // Ex. get latest headlines 20-40 -> /headlines/20
   app.get('/headlines/:filter/date/:number', function(req, res) {
     var number = req.params.number;
     var filter = req.params.filter;
     var sortQuery = { dateCreated: -1 };
+    var findQuery = { "article": query };
 
-    getHeadlinesHelper(filter, sortQuery, number, res);
+    getHeadlinesHelper(filter, sortQuery, number, res, findQuery);
 
   });
 
@@ -118,6 +130,29 @@ module.exports = function(app) {
     var number = req.params.number;
     var filter = req.params.filter;
     var sortQuery = { voteCount: -1 };
+    var findQuery = { "article": query };
+
+    getHeadlinesHelper(filter, sortQuery, number, res, findQuery);
+
+  });
+
+  // get 20 latests headlines inside category
+  // Ex. get latest headlines 20-40 -> /headlines/20
+  app.get('/headlines/:filter/date/:number/:category', function(req, res) {
+    var number = req.params.number;
+    var filter = req.params.filter;
+    var sortQuery = { dateCreated: -1 };
+
+    getHeadlinesHelper(filter, sortQuery, number, res);
+
+  });
+
+  // get 20 most popular headlines inside category, starting @ number
+  // Ex. get headlines 20-40 in popularity -> /headlines/20
+  app.get('/headlines/:filter/popular/:number/:category', function(req, res) {
+    var number = req.params.number;
+    var filter = req.params.filter;
+    var sortQuery = { dateCreated: -1 };
 
     getHeadlinesHelper(filter, sortQuery, number, res);
 
