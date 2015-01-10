@@ -8,12 +8,9 @@ var MongoStore = require('connect-mongo')({ session: session });
 var flash = require('express-flash');
 var mongoose = require('mongoose');
 var passport = require('passport');
-require('./config/passport.js')(passport)
 var secrets = require('./config/secrets');
 var passportConf = require('./config/passport');
 var crypto = require('crypto');
-
-
 var User = require('./backend/models/user.js');
 
 // Connect to the
@@ -24,6 +21,8 @@ mongoose.connect("mongodb://localhost:27017/Headlines", function(err, db) {
     console.log("ERROR - We did not connect to server");
   }
 });
+
+require('./config/passport.js')(passport)
 
 // configuration =================
 app.use(cookieParser());

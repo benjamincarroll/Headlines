@@ -1,13 +1,13 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+schema = mongoose.Schema;
 
-var PageSchema = new Schema({
-  article        : Boolean,
-  userId         : Number,
+var HeadlineSchema = new schema({
+  article        : String,
+  userId         : String,
   headline       : String,
   dateCreated    : Number,
   voteCount      : Number,
   threshold      : Number
 });
 
-module.exports = mongoose.model('headline', PageSchema);
+module.exports = mongoose.model('headline', HeadlineSchema);
