@@ -31,9 +31,112 @@
         <hr>
 
         <section id="main_content">
-          <p>Welcome to Headlines documentation</p>
+          <h2>
+<a id="welcome-to-headlines-documentation" class="anchor" href="#welcome-to-headlines-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Headlines documentation</h2>
 
-<pre><code>for (int i = 0; i &lt; 5; i++)
+<h2>
+<a id="post-a-headline" class="anchor" href="#post-a-headline" aria-hidden="true"><span class="octicon octicon-link"></span></a>POST a headline:</h2>
+
+<pre><code>/headline
+</code></pre>
+
+<p>Sample body</p>
+
+<pre><code>{
+    "article": null,
+    "userId": "546a9404e3650bc830d62466",
+    "headline": "RHCP are the bomb",
+    "dateCreated": 9765467,
+    "voteCount": 0,
+    "threshold": 5
+}
+</code></pre>
+
+<h2>
+<a id="get-the-20-latest-headlines" class="anchor" href="#get-the-20-latest-headlines" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET the 20 latest headlines</h2>
+
+<pre><code>/headlines/date/:number
+</code></pre>
+
+<p>Examples</p>
+
+<pre><code>/headlines/date/0
+</code></pre>
+
+<p>will get the latest 20 headlines</p>
+
+<pre><code>/headlines/date/10
+</code></pre>
+
+<p>will get the 10th - 30th latest headlines </p>
+
+<p>Example Response</p>
+
+<pre><code>[
+   {
+       "_id": "54b0d293036afeca6a640965",
+       "article": null,
+       "userId": "546a9404e3650bc830d62466",
+       "headline": "How is this happening without being authenticated",
+       "dateCreated": 1420874387,
+       "voteCount": 6,
+       "threshold": 5,
+       "__v": 0
+   },
+   ...
+]
+</code></pre>
+
+<h2>
+<a id="get-the-20-most-popular-headlines" class="anchor" href="#get-the-20-most-popular-headlines" aria-hidden="true"><span class="octicon octicon-link"></span></a>GET the 20 most popular headlines</h2>
+
+<pre><code>/headlines/date/:number
+</code></pre>
+
+<p>Examples</p>
+
+<pre><code>/headlines/date/0
+</code></pre>
+
+<p>will get the most popular 20 headlines</p>
+
+<pre><code>/headlines/date/10
+</code></pre>
+
+<p>will get the 10th - 30th most popular headlines </p>
+
+<p>Example Response</p>
+
+<pre><code>[
+   {
+       "_id": "54b0d293036afeca6a640965",
+       "article": null,
+       "userId": "546a9404e3650bc830d62466",
+       "headline": "How is this happening without being authenticated",
+       "dateCreated": 1420874387,
+       "voteCount": 6,
+       "threshold": 5,
+       "__v": 0
+   },
+   ...
+]
+</code></pre>
+
+<h2>
+<a id="upvote-a-headline" class="anchor" href="#upvote-a-headline" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upvote a Headline</h2>
+
+<pre><code>/headlines/upvote/:headlineId/:userId
+</code></pre>
+
+<h2>
+<a id="get-userinfo" class="anchor" href="#get-userinfo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get UserInfo</h2>
+
+<pre><code>/userInfo
+</code></pre>
+
+<p>Example respone:</p>
+
+<pre><code>{ "_id" : ObjectId("54b0867f5391f5e12b992800"), "twitter" : "1898936881", "email" : "benjamincarrol@twitter.com", "votes" : [ ], "profile" : { "picture" : "https://pbs.twimg.com/profile_images/531636981113974784/4ogD0f4B_normal.jpeg", "website" : "", "location" : "", "gender" : "", "name" : "Benjamin Carroll" }, "tokens" : [ { "tokenSecret" : "ksunRRgaiOZb9F3CRJIxOuUjK9WOB9iXBl9WjdBmRmO5P", "accessToken" : "1898936881-mjczNXxQ4oohch4rmDBo3zaoprjyRn8fO8lKIjZ", "kind" : "twitter" } ], "__v" : 0 }
 </code></pre>
         </section>
 
