@@ -39,8 +39,11 @@
                   <li class="profile">
                     
                     <a ui-sref-active="active" ui-sref="profile">
-                      <span ng-if="user.name">@{{user.name}}</span>
-                      <img class="profile-thumbnail" src="{{user.picture}}">
+                      <a ng-show="user" ng-href="auth/twitter">Sign In</a>
+                      <div ng-show="!user">
+                        <span>@{{user.name}}</span>
+                        <img class="profile-thumbnail" ng-src="{{user.picture}}">
+                      </div>
                     </a>
                   </li>
                   <li>
