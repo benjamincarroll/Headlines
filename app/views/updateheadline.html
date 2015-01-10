@@ -1,0 +1,15 @@
+<div class="container-fluid">
+	<div class="newheadline-wrapper">
+		<div class="row">
+			<h2 class="col-sm-6 nh-top">Create Content</h2>
+			<p class="col-sm-6 nh-top nh-top__name"> @JohnAppleseed </p>
+		</div>
+		<hr>
+		<form ng-submit="submitNewHeadline()" class="nh-form">
+			<div class="nh-form__label" >Link</div>
+			<input ng-model="headlineForm.title" class="nh-form__input nh-form__input-row" type="url" placeholder="http://mycontent.com/appleseed/123">
+			<button ng-disabled="disableSubmit" class="btn btn-success btn-submit right" type="submit">Update</button>
+		</form>
+	</div>
+</div>
+

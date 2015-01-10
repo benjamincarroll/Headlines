@@ -43,7 +43,7 @@ app.use(flash());
 
 
 // renders static pages
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/app'));
 
 // Twitter oAuth
 app.get('/auth/twitter', passport.authenticate('twitter'));

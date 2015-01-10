@@ -1,0 +1,49 @@
+<div class="container-fluid profile-page">
+  <div class="row main-panel">
+    <div class="col-sm-12 main-content">
+      <div class="row main-content__tabs">
+        <div ng-repeat="tab in tabs" class="col-md-6 main-content__tab" ng-class="{ active: tab === selectedTab }" ng-click="setTab(tab)">
+          {{tab | uppercase}}
+        </div>
+      </div>
+      <div class="main-list">
+        <ul ng-show="selectedTab === tabs[0]" class="headlines">
+          <li class="row main-list__item" ng-repeat="headline in headlines">
+            <div class="col-md-2 main-list__thumbnail">
+              <div class="image"></div>
+            </div>
+            <div class="col-md-8 main-list__label">
+              <div class="title">{{headline}}</div>
+              <div class="subtitle">Lorem ipsum dolor iset</div>
+              <div class="author">@JohnAppleseed | Goal: 1000 | Current Upvotes: 111</div>
+            </div>
+            <div class="col-md-2 main-list__votes">
+              <div class="votes">
+                <i ui-sref="updateHeadline" class="fa fa-link"></i>
+                <i ui-sref="editHeadline" class="fa fa-edit"></i>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul ng-show="selectedTab === tabs[1]" class="articles">
+           <li class="row main-list__item" ng-repeat="headline in articles">
+            <div class="col-md-2 main-list__thumbnail">
+              <div class="image"></div>
+            </div>
+            <div class="col-md-9 main-list__label">
+              <div class="title"><a href="javascript:void(0)">{{headline}}</a></div>
+              <div class="subtitle">Lorem ipsum dolor iset</div>
+              <div class="author">@JohnAppleseed</div>
+            </div>
+            <div class="col-md-1 main-list__votes">
+              <div class="votes">
+                <i class="fa fa-edit"></i>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
