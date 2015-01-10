@@ -43,6 +43,11 @@ angular
       .state('updateHeadline', {
         url: '/updateHeadline',
         templateUrl: 'views/updateheadline.html',
-        controller: 'updateheadlineCtrl'
+        controller: 'UpdateheadlineCtrl'
+      })
+      .state('editHeadline', {
+        url: '/editHeadline',
+        templateUrl: 'views/editheadline.html',
+        controller: 'EditheadlineCtrl'
       });
   });

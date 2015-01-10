@@ -295,7 +295,7 @@ a:focus {
           transition: transform 0.5s;
       } 
       .main-list__votes .fa:hover {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
       }
 
 
@@ -355,6 +355,9 @@ a:focus {
     }
     .profile-page .votes .fa-link {
       color: #66d066;
+    }
+    .profile-page .votes .fa-edit {
+      color: #ff6666;
     }
 /* ==========================================================================
                         UPDATE HEADLINE
