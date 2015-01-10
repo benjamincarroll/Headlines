@@ -65,9 +65,14 @@ module.exports = function(app) {
   // post an headline
   app.post('/api/headline', function(req, res) {
       var article = req.body.article;
+      var link = req.body.link;
       var user = req.user;
       if (article == null){
         article = "";
+      }
+
+      if (link == null){
+        link = "";
       }
 
       Headline.findOne({
@@ -85,7 +90,8 @@ module.exports = function(app) {
                     dateCreated: Math.round((new Date()).getTime() / 1000),
                     voteCount: req.body.voteCount,
                     threshold: req.body.threshold,
-                    subtitle: req.body.subtitle
+                    subtitle: req.body.subtitle,
+                    link: link
                 }, function(err, headline) {
                   if (err) {
                       res.send(err);
@@ -172,6 +178,38 @@ module.exports = function(app) {
       }
     })
   });
+
+  app.post('/api/headline/addlink/:headlineId', function(req, res){
+    var link = req.body.link;
+    console.log("Link: " + link);
+    var headlineId = req.params.headlineId;
+
+    Headline.findOne({"_id" : headlineId }).exec(function(err, headline){
+      console.log("1");
+      if (headline){
+        console.log("headlineId: " + headline.userId);
+        console.log("userId: " + req.user._id);
+        if (headline.userId == req.user._id){
+          console.log("3");
+          Headline.update({"_id": headlineId }, {$set: {"link": link}}).exec(function(err, headline){
+            if (err) return error_handler(err, req, res);
+            console.log("4");
+
+            if (headline){
+              console.log("5");
+              res.send({
+                "success": true
+              });
+            } else {
+              res.sendStatus(403);
+            }
+          })
+        }
+      } else {
+        res.sendStatus(403);
+      }
+    })
+  })
 
   // get userInformation
   app.get('/api/userInfo', function(req, res) {
