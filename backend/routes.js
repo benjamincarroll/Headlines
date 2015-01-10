@@ -80,6 +80,44 @@ module.exports = function(app) {
           });
   });
 
+  // get 20 latests headlines after date
+  // get latest headlines 20-40 with userId 69
+  // /headlines/20
+  app.get('/headlines/date/:number', function(req, res) {
+      var limit = 20;
+      var number = req.params.number
+
+      Headline.find()
+          .limit(limit)
+          .skip(number)
+          .sort({
+              dateCreated: -1
+          })
+          .exec(function(err, headlines) {
+               if (err) return error_handler(err, req, res);
+          res.json(headlines);
+          console.log("20 headlines have been sent, starting with: " + req.params.number);
+          });
+  });
+
+  // get the 20 most popular headlines, after specified number
+  // Ex. to get top headlines 20-40 "/headlines/20"
+  app.get('/headlines/popular/:number', function(req, res) {
+      var limit = 20;
+      var number = req.params.number
+
+    Headline.find()
+        .skip(number)
+        .limit(limit)
+        .sort({
+            voteCount: -1
+        }).exec(function(err, headlines) {
+            if (err) return error_handler(err, req, res);
+            res.json(headlines);
+            console.log("20 headlines have been sent, starting with: " + req.params.number);
+        });
+  });
+
   // upvote a headline
   app.post('/headlines/upvote/:headlineId/:userId', function(req,res){
     var headlineId = req.params.headlineId;
@@ -126,44 +164,6 @@ module.exports = function(app) {
         res.send(401);
       }
     })
-  });
-
-  // get 20 latests headlines after date
-  // get latest headlines 20-40 with userId 69
-  // /headlines/20
-  app.get('/headlines/date/:number', function(req, res) {
-      var limit = 20;
-      var number = req.params.number
-
-      Headline.find()
-          .limit(limit)
-          .skip(number)
-          .sort({
-              dateCreated: -1
-          })
-          .exec(function(err, headlines) {
-               if (err) return error_handler(err, req, res);
-          res.json(headlines);
-          console.log("20 headlines have been sent, starting with: " + req.params.number);
-          });
-  });
-
-  // get the 20 most popular headlines, after specified number
-  // Ex. to get top headlines 20-40 "/headlines/20"
-  app.get('/headlines/popular/:number', function(req, res) {
-      var limit = 20;
-      var number = req.params.number
-
-    Headline.find()
-        .skip(number)
-        .limit(limit)
-        .sort({
-            voteCount: -1
-        }).exec(function(err, headlines) {
-            if (err) return error_handler(err, req, res);
-            res.json(headlines);
-            console.log("20 headlines have been sent, starting with: " + req.params.number);
-        });
   });
 
   // get userInformation
