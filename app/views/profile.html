@@ -10,11 +10,11 @@
         <ul ng-show="selectedTab === tabs[0]" class="headlines">
           <li class="row main-list__item" ng-repeat="headline in headlines">
             <div class="col-md-2 main-list__thumbnail">
-              <div class="image"></div>
+              <div class="image" style="background: url({{getRandomCat($index)}}); background-size: contain;"></div>
             </div>
             <div class="col-md-8 main-list__label">
-              <div class="title">{{headline}}</div>
-              <div class="subtitle">Lorem ipsum dolor iset</div>
+              <div class="title">{{headline.headline}}</div>
+              <div class="subtitle">{{headline.subtitle}}</div>
               <div class="author">@JohnAppleseed | Goal: 1000 | Current Upvotes: 111</div>
             </div>
             <div class="col-md-2 main-list__votes">
@@ -28,7 +28,7 @@
         <ul ng-show="selectedTab === tabs[1]" class="articles">
            <li class="row main-list__item" ng-repeat="headline in articles">
             <div class="col-md-2 main-list__thumbnail">
-              <div class="image"></div>
+              <div class="image" style="background: url({{getRandomCat($index)}}); background-size: contain;"></div>
             </div>
             <div class="col-md-9 main-list__label">
               <div class="title"><a href="javascript:void(0)">{{headline}}</a></div>

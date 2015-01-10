@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="headlinesApp">
+  <body ng-app="headlinesApp" ng-controller="HeadlinesappCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -39,8 +39,8 @@
                   <li class="profile">
                     
                     <a ui-sref-active="active" ui-sref="profile">
-                      <span>@JohnAppleseed</span>
-                      <img class="profile-thumbnail" src="images/defaultprofile.png">
+                      <span>@{{user.name}}</span>
+                      <img class="profile-thumbnail" src="{{user.picture}}">
                     </a>
                   </li>
                   <li>
@@ -107,7 +107,8 @@
         <script src="scripts/controllers/updateheadline.js"></script>
         <script src="scripts/controllers/editheadline.js"></script>
         <script src="scripts/services/restapi.js"></script>
-        <script src="scripts/services/businesslogic.js"></script>
+        <script src="scripts/services/appdata.js"></script>
+        <script src="scripts/controllers/headlinesapp.js"></script>
         <!-- endbuild -->
 </body>
 </html>

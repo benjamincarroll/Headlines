@@ -8,16 +8,17 @@
  * Factory in the headlinesApp.
  */
 angular.module('headlinesApp')
-  .factory('restApi', function () {
-    // Service logic
-    // ...
-
-    var meaningOfLife = 42;
+  .factory('restApi', function ($http) {
+    
+    var api = '/api';
 
     // Public API here
     return {
-      someMethod: function () {
-        return meaningOfLife;
+      getContent: function (number, type) {
+        return $http.get(api+'/headlines/'+type+'/date/'+number);
+      },
+      getUserInfo: function() {
+        return $http.get(api+'/userInfo');
       }
     };
   });

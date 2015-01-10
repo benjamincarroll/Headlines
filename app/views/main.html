@@ -27,14 +27,14 @@
               <div class="image" style="background: url({{getRandomCat($index)}}); background-size: contain;"></div>
             </div>
             <div class="col-md-9 main-list__label">
-              <div class="title">{{headline}}</div>
-              <div class="subtitle">Lorem ipsum dolor iset</div>
-              <div class="author">@JohnAppleseed | Goal: 1000</div>
+              <div class="title">{{headline.headline}}</div>
+              <div class="subtitle">{{headline.subtitle}}</div>
+              <div class="author">@{{headline.author}} | {{headline.dateCreated | date:'MMM-d-yyyy'}} | Goal: {{headline.threshold}} </div>
             </div>
             <div class="col-md-1 main-list__votes">
-              <div ng-click="upvote(headline)" class="votes">
-                <i class="fa fa-chevron-up"></i>
-                <span class="votes__number">111</span> 
+              <div ng-click="upvote(headline._id)" class="votes">
+                <p><i class="fa fa-chevron-up"></i></p>
+                <span class="votes__number">{{headline.voteCount}}</span> 
               </div>
             </div>
           </li>
@@ -42,7 +42,7 @@
         <ul ng-if="selectedTab === tabs[1]" class="articles">
            <li class="row main-list__item" ng-repeat="headline in articles">
             <div class="col-md-2 main-list__thumbnail">
-              <div class="image"></div>
+              <div class="image" style="background: url({{getRandomCat($index)}}); background-size: contain;"></div>
             </div>
             <div class="col-md-10 main-list__label">
               <div class="title"><a href="javascript:void(0)">{{headline}}</a></div>

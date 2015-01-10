@@ -19,6 +19,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
 a:hover,
 a:visited, 
 a:focus {
@@ -29,7 +30,7 @@ a:focus {
 .left {  float: left; }
 .row {   margin: 0;}
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-.reset-header { margin: 0; }
+.reset-header, p { margin: 0; }
 .btn { border-radius: 0; }
 .hl-navbar {
     background-color: #149c82;
