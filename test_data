@@ -6,9 +6,9 @@ Post a headline
     "article": null,
     "userId": "546a9404e3650bc830d62466",
     "headline": "RHCP are the bomb",
-    "dateCreated": 9765467,
     "voteCount": 0,
-    "threshold": 5
+    "threshold": 5,
+    "category": "Music"
 }
 
 Upvote a headline
