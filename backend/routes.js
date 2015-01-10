@@ -2,6 +2,37 @@ var Headline = require('./models/headlines.js');
 var error_handler = require('./error_handling.js');
 var User = require('./models/user.js');
 
+/*
+ * HELPER FUNCTIONS
+ */
+
+function getHeadlinesHelper(filter, sortQuery, number, res){
+  var limit = 20;
+  var query;
+
+  if (filter == "pending"){
+    query = "";
+  } else if (filter == "completed"){
+    query = { $gt: ""};
+  } else if (filter == "both"){
+    query = { $gte: ""};
+  } else {
+    console.log("Invalid filter was passed in parameter");
+    res.sendStatus(400);
+    return;
+  }
+
+  Headline.find({ "article": query })
+  .limit(limit)
+  .skip(number)
+  .sort(sortQuery)
+  .exec(function(err, headlines) {
+       if (err) return error_handler(err, req, res);
+  res.json(headlines);
+  console.log("20 headlines have been sent, starting with: " + number);
+  });
+}
+
 // Headline routes
 module.exports = function(app) {
 
@@ -33,74 +64,63 @@ module.exports = function(app) {
 
   // post an headline
   app.post('/headline', function(req, res) {
+      var article = req.body.article;
+      if (article == null){
+        article = "";
+      }
+
       Headline.findOne({
               headline: req.body.headline,
               userId: req.body.userId
           },
           function(error, headline) {
-
-              if (error) return error_handler(err, req, res);
-              if (!headline) {
-                  Headline.create({
-                      article: req.body.article,
-                      userId: req.body.userId,
-                      headline: req.body.headline,
-                      dateCreated: Math.round((new Date()).getTime() / 1000),
-                      voteCount: req.body.voteCount,
-                      threshold: req.body.threshold
-                  }, function(err, headline) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                      res.send({
-                          status: "Success",
-                          headlineId: headline._id
-                      });
-                    }
-                  });
-              } else {
-                console.log("The Headline already exists: " + req.body.headline);
-                res.sendStatus(400);
-              }
+            if (error) return error_handler(err, req, res);
+            if (!headline) {
+                Headline.create({
+                    article: article,
+                    userId: req.body.userId,
+                    headline: req.body.headline,
+                    dateCreated: Math.round((new Date()).getTime() / 1000),
+                    voteCount: req.body.voteCount,
+                    threshold: req.body.threshold
+                }, function(err, headline) {
+                  if (err) {
+                      res.send(err);
+                  } else {
+                    res.send({
+                        status: "Success",
+                        headlineId: headline._id
+                    });
+                  }
+                });
+            } else {
+              console.log("The Headline already exists: " + req.body.headline);
+              res.sendStatus(400);
+            }
         }
       );
   });
 
   // get 20 latests headlines
   // get latest headlines 20-40 -> /headlines/20
-  app.get('/headlines/date/:number', function(req, res) {
-    var limit = 20;
-    var number = req.params.number
+  app.get('/headlines/:filter/date/:number', function(req, res) {
+    var number = req.params.number;
+    var filter = req.params.filter;
+    var sortQuery = { dateCreated: -1 };
 
-    Headline.find()
-      .limit(limit)
-      .skip(number)
-      .sort({
-          dateCreated: -1
-      })
-      .exec(function(err, headlines) {
-           if (err) return error_handler(err, req, res);
-      res.json(headlines);
-      console.log("20 headlines have been sent, starting with: " + req.params.number);
-      });
+    getHeadlinesHelper(filter, sortQuery, number, res);
+
   });
 
   // get the 20 most popular headlines, after specified number
   // Ex. to get top headlines 20-40 "/headlines/20"
-  app.get('/headlines/popular/:number', function(req, res) {
-      var limit = 20;
-      var number = req.params.number
+  app.get('/headlines/:filter/popular/:number', function(req, res) {
+    var number = req.params.number;
+    var filter = req.params.filter;
+    var sortQuery = { voteCount: -1 };
 
-    Headline.find()
-        .skip(number)
-        .limit(limit)
-        .sort({
-            voteCount: -1
-        }).exec(function(err, headlines) {
-            if (err) return error_handler(err, req, res);
-            res.json(headlines);
-            console.log("20 headlines have been sent, starting with: " + req.params.number);
-        });
+    getHeadlinesHelper(filter, sortQuery, number, res);
+
   });
 
   // upvote a headline
