@@ -44,11 +44,17 @@ angular.module('headlinesApp')
     	console.debug(cat);
     	$scope.selectedCat = cat;
     };
-    $scope.getRandomCat = function($index){
-    	var random = $index + 1;
-    	return '"http://thecatapi.com/api/images/get?format=src&results_per_page='+random+'"';
-    }
-    $scope.upvote = function(){
-
+    
+    $scope.upvote = function(id){
+		appData.upvote(id).then(function(success){
+	    	if(success){
+	    		for(var i = 0; i < $scope.headlines.length; i++){
+	    			if($scope.headlines[i]._id === id){
+	    				$scope.headlines[i].voteCount += 1;
+	    				break;
+	    			}
+	    		}
+	    	}
+		});    	
     };
   });

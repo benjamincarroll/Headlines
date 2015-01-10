@@ -24,12 +24,12 @@
         <ul ng-if="selectedTab === tabs[0]" class="headlines">
           <li class="row main-list__item" ng-repeat="headline in headlines">
             <div class="col-md-2 main-list__thumbnail">
-              <div class="image" style="background: url({{getRandomCat($index)}}); background-size: contain;"></div>
+              <div class="image" style="background: url({{getRandomCat($index)}}) no-repeat; background-size: contain;"></div>
             </div>
             <div class="col-md-9 main-list__label">
               <div class="title">{{headline.headline}}</div>
               <div class="subtitle">{{headline.subtitle}}</div>
-              <div class="author">@{{headline.author}} | {{headline.dateCreated | date:'MMM-d-yyyy'}} | Goal: {{headline.threshold}} </div>
+              <div class="author">@{{headline.authorName}} | {{headline.dateCreated | date:'MMM-d-yyyy'}} | Goal: {{headline.threshold}} </div>
             </div>
             <div class="col-md-1 main-list__votes">
               <div ng-click="upvote(headline._id)" class="votes">

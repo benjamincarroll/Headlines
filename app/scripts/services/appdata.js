@@ -10,22 +10,30 @@
 angular.module('headlinesApp')
   .factory('appData', function (restApi) {
     
+    var userId = '';
     var headlinePost = {
-        "userId": "546a9404e3650bc830d62466",
-        "headline": "RHCP are the bomb",
-        "dateCreated": 9765467,
+        "userId": "",
+        "headline": "",
+        "dateCreated": null,
         "voteCount": 0,
-        "threshold": 5
+        "threshold": 0
     };
-
-    var userInfo = {};
+    var buildHeadline = function(headline, subtitle, threshold){
+        headlinePost.userId = userId;
+        headlinePost.headline = headline;
+        headlinePost.subtitle = subtitle;
+        headlinePost.dateCreated = new Date();
+        headlinePost.threshold = threshold;
+        return headlinePost;
+    };
 
     // Public API here
     return {
       getUserInfo: function() {
         return restApi.getUserInfo().then(function(resp){
-          userInfo = resp.data;
-          console.dir(userInfo);
+          console.dir(resp);
+          userId = resp.data.userId;
+          return resp;
         });
       },
       getHeadlines: function (number) {
@@ -35,7 +43,17 @@ angular.module('headlinesApp')
         return restApi.getContent(number, 'completed');
       },
       upvote: function(hId){
-        return restApi.upvote(hId, userId);
+        return restApi.upvote(hId, userId).then(function(resp){
+          return resp.data.success;
+        });
+      },
+      createHeadline: function(data){
+        var post = buildHeadline(data.title, data.subtitle, data.threshold);
+        return restApi.createHeadline(post).then(function(resp){
+            console.debug('Post Created!');
+            console.dir(resp);
+            return resp;
+        });
       }
     };
   });

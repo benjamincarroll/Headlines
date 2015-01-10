@@ -15,12 +15,12 @@
             <div class="col-md-8 main-list__label">
               <div class="title">{{headline.headline}}</div>
               <div class="subtitle">{{headline.subtitle}}</div>
-              <div class="author">@JohnAppleseed | Goal: 1000 | Current Upvotes: 111</div>
+              <div class="author">Goal: {{headline.threshold}} || Current: {{headline.voteCount}}</div>
             </div>
             <div class="col-md-2 main-list__votes">
               <div class="votes">
-                <i ui-sref="updateHeadline" class="fa fa-link"></i>
-                <i ui-sref="editHeadline" class="fa fa-edit"></i>
+                <i ng-if="headline.voteCount >= headline.threshold" ui-sref="updateHeadline" class="fa fa-link"></i>
+                <i ui-sref="editHeadline" class="fa fa-trash"></i>
               </div>
             </div>
           </li>

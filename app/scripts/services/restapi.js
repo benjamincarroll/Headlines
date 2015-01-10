@@ -19,6 +19,12 @@ angular.module('headlinesApp')
       },
       getUserInfo: function() {
         return $http.get(api+'/userInfo');
+      },
+      createHeadline: function(data){
+        return $http.post(api+'/headline', data);
+      },
+      upvote: function(headId, userId){
+        return $http.post(api+'/headlines/upvote/'+headId+'/'+userId);
       }
     };
   });

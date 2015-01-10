@@ -8,18 +8,25 @@
  * Controller of the headlinesApp
  */
 angular.module('headlinesApp')
-  .controller('NewheadlineCtrl', function ($scope) {
+  .controller('NewheadlineCtrl', function ($scope, appData, $state) {
   	$scope.headlineForm = {
   		'title': '',
   		'subtitle': '',
-  		'goal': 100
+  		'threshold': 100
   	};
-    $scope.numbers = [
-      10, 50, 100, 150, 200, 500, 1000, 10000
-    ];
-    $scope.typeOfContent = ['Article', 'Link', 'Youtube Video'];
-    $scope.submitNewHeadline = function(){
-    	console.debug('submitting new headline!');
+
+    $scope.submit = function(){
+    	$scope.disableSubmit = true;
+      appData.createHeadline($scope.headlineForm).then(function(resp){
+        $state.go('profile')
+      });
     };
     $scope.disableSubmit = false;
+    $scope.clear = function(){
+      $scope.headlineForm = {
+        'title': '',
+        'subtitle': '',
+        'threshold': 0
+      };
+    };
   });

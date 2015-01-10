@@ -39,7 +39,7 @@
                   <li class="profile">
                     
                     <a ui-sref-active="active" ui-sref="profile">
-                      <span>@{{user.name}}</span>
+                      <span ng-if="user.name">@{{user.name}}</span>
                       <img class="profile-thumbnail" src="{{user.picture}}">
                     </a>
                   </li>

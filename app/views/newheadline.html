@@ -5,21 +5,21 @@
 			<p class="col-sm-6 nh-top nh-top__name"> @JohnAppleseed </p>
 		</div>
 		<hr>
-		<form ng-submit="submitNewHeadline()" class="nh-form">
+		<div class="nh-form">
 			<div class="nh-form__label" >Headline</div>
 			<input ng-model="headlineForm.title" class="nh-form__input nh-form__input-row" type="text" placeholder="10 things you didn't know about Velocity.">
 			<div class="nh-form__label">Subtitle</div>
 			<input  ng-model="headlineForm.subtitle" class="nh-form__input nh-form__input-row" type="text" placeholder="Number 8 will blow your mind.">
 			<div class="row nh-form__input-row">
-				<div ng-mod class="col col-sm-6">
+				<div class="col col-sm-6">
 					<div class="nh-form__label">Goal</div>
-					<input  ng-model="headlineForm.goal" class="nh-form__input nh-form__input-goal" type="number">
+					<input  ng-model="headlineForm.threshold" class="nh-form__input nh-form__input-goal" type="number">
 				</div>
 				<div class="col col-sm-6">
-					<button ng-disabled="disableSubmit" class="btn btn-success btn-submit right" type="submit">Post</button>
+					<button ng-disabled="disableSubmit" class="btn btn-success btn-submit right" type="submit" ng-click="submit()">Post</button>
 					<button class="btn btn-danger btn-submit right" ng-click="clear()">Clear</button>
 				</div>
 			</div>
-		</form>
+		</div>
 	</div>
 </div>
