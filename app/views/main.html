@@ -1,0 +1,58 @@
+<div class="container-fluid">
+  <div class="row main-panel">
+    <div class="col-sm-2 sidebar">
+      <div class="sidebar__title">
+        CATEGORIES
+      </div>
+      <div class="sidebar__list-wrapper">
+        <ul>
+          <li class="sidebar__list-item" ng-class="{ active: cat === selectedCat }" ng-repeat="cat in categories" ng-click="setCategory(cat)">
+           <!--  <input type="radio" name="headlineCategory" class="radio" ng-change="setCategory(cat)" ng-model="cat"> -->
+            <span class="sidebar__list-label">{{cat}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-10 main-content">
+      <div class="row main-content__tabs">
+        <div ng-repeat="tab in tabs" class="col-md-6 main-content__tab" ng-class="{ active: tab === selectedTab }" ng-click="setTab(tab)">
+          {{tab | uppercase}}
+        </div>
+      
+      </div>
+      <div class="main-list">
+        <ul ng-if="selectedTab === tabs[0]" class="headlines">
+          <li class="row main-list__item" ng-repeat="headline in headlines">
+            <div class="col-md-2 main-list__thumbnail">
+              <div class="image"></div>
+            </div>
+            <div class="col-md-9 main-list__label">
+              <div class="title">{{headline}}</div>
+              <div class="subtitle">Lorem ipsum dolor iset</div>
+              <div class="author">@JohnAppleseed | Goal: 1000</div>
+            </div>
+            <div class="col-md-1 main-list__votes">
+              <div class="votes">
+                <i class="fa fa-chevron-up"></i>
+                <span class="votes__number">111</span> 
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul ng-if="selectedTab === tabs[1]" class="articles">
+           <li class="row main-list__item" ng-repeat="headline in articles">
+            <div class="col-md-2 main-list__thumbnail">
+              <div class="image"></div>
+            </div>
+            <div class="col-md-10 main-list__label">
+              <div class="title"><a href="javascript:void(0)">{{headline}}</a></div>
+              <div class="subtitle">Lorem ipsum dolor iset</div>
+              <div class="author">@JohnAppleseed</div>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
