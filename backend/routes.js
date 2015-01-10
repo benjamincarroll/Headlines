@@ -11,18 +11,20 @@ function getHeadlinesHelper(filter, sortQuery, number, res){
   var query;
 
   if (filter == "pending"){
-    query = "";
+    query = { $and: [ { "article": "" }, { "link": "" } ]};
   } else if (filter == "completed"){
-    query = { $gt: ""};
+    query = {"article": { $gt: ""}};
+    linkQuery = { $or: [ { "link" : { $ne: ""}}, query]};
+    query = linkQuery;
   } else if (filter == "both"){
-    query = { $gte: ""};
+    query = {"article": { $gte: ""}};
   } else {
     console.log("Invalid filter was passed in parameter");
     res.sendStatus(400);
     return;
   }
 
-  Headline.find({ "article": query })
+  Headline.find(query)
   .limit(limit)
   .skip(number)
   .sort(sortQuery)
