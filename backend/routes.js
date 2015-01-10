@@ -174,15 +174,20 @@ module.exports = function(app) {
   });
 
   // get userInformation
-  app.get('/api/userInfo', function(req, res){
-    var user = req.user;
-    if (user){
-      console.log("Get userInfo successful. Sending data.")
-      res.json({ user : user.profile });
-    } else {
-        res.json({ user : null });
-        console.log("userInfo requested, no users signed in");
-    }
+  app.get('/api/userInfo', function(req, res) {
+      var user = req.user;
+      if (user) {
+          console.log("Get userInfo successful. Sending data.")
+          res.json({
+              userId: user._id,
+              userInfo: user.profile
+          });
+      } else {
+          res.json({
+              user: null
+          });
+          console.log("userInfo requested, no users signed in");
+      }
   });
 }
 
