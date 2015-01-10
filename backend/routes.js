@@ -79,10 +79,12 @@ module.exports = function(app) {
                 Headline.create({
                     article: article,
                     userId: req.body.userId,
+                    authorName: req.body.authorName,
                     headline: req.body.headline,
                     dateCreated: Math.round((new Date()).getTime() / 1000),
                     voteCount: req.body.voteCount,
-                    threshold: req.body.threshold
+                    threshold: req.body.threshold,
+                    subtitle: req.body.subtitle
                 }, function(err, headline) {
                   if (err) {
                       res.send(err);
