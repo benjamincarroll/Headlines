@@ -63,7 +63,7 @@ module.exports = function(app) {
   });
 
   // post an headline
-  app.post('/headline', function(req, res) {
+  app.post('/api/headline', function(req, res) {
       var article = req.body.article;
       if (article == null){
         article = "";
@@ -103,7 +103,7 @@ module.exports = function(app) {
 
   // get 20 latests headlines
   // get latest headlines 20-40 -> /headlines/20
-  app.get('/headlines/:filter/date/:number', function(req, res) {
+  app.get('/api/headlines/:filter/date/:number', function(req, res) {
     var number = req.params.number;
     var filter = req.params.filter;
     var sortQuery = { dateCreated: -1 };
@@ -114,7 +114,7 @@ module.exports = function(app) {
 
   // get the 20 most popular headlines, after specified number
   // Ex. to get top headlines 20-40 "/headlines/20"
-  app.get('/headlines/:filter/popular/:number', function(req, res) {
+  app.get('/api/headlines/:filter/popular/:number', function(req, res) {
     var number = req.params.number;
     var filter = req.params.filter;
     var sortQuery = { voteCount: -1 };
@@ -124,7 +124,7 @@ module.exports = function(app) {
   });
 
   // upvote a headline
-  app.post('/headlines/upvote/:headlineId/:userId', function(req,res){
+  app.post('/api/headlines/upvote/:headlineId/:userId', function(req,res){
     var headlineId = req.params.headlineId;
     var userId = req.params.userId;
     console.log("Here's the data: " + headlineId + "    " + userId);
@@ -171,7 +171,7 @@ module.exports = function(app) {
   });
 
   // get userInformation
-  app.get('/userInfo', function(req, res){
+  app.get('/api/userInfo', function(req, res){
     var user = req.user;
     if (user){
       console.log("Get userInfo successful. Sending data.")
